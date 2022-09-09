@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { Alignment, Box, Direction, Image, Stack, Text, useBuiltTheme } from '@kibalabs/ui-react';
+import { Alignment, Direction, Stack, Text, useBuiltTheme } from '@kibalabs/ui-react';
 
 import { GmAccountRow } from '../client/resources';
 import { AccountViewLink } from './AccountView';
 import { HeaderCell, ITableCellTheme, ITableTheme, StyledTable, StyledTableBody, StyledTableBodyRow, StyledTableBodyRowItem, StyledTableHead, StyledTableHeadRow } from './Table';
 
 const areDatesSameDay = (date1: Date, date2: Date): boolean => {
-  return date1.getFullYear() === date2.getFullYear() &&
-  date1.getMonth() === date2.getMonth() &&
-  date1.getDate() === date2.getDate();
-}
+  return date1.getFullYear() === date2.getFullYear()
+  && date1.getMonth() === date2.getMonth()
+  && date1.getDate() === date2.getDate();
+};
 
 interface IUserCellContentProps {
   address: string;
@@ -94,7 +94,7 @@ export const AccountsTable = (props: IAccountsTableProps): React.ReactElement =>
               {row.monthCount}
             </StyledTableBodyRowItem>
           </StyledTableBodyRow>
-      ))}
+        ))}
       </StyledTableBody>
     </StyledTable>
   );

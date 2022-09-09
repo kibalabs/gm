@@ -6,10 +6,10 @@ import { Alignment, Box, Button, ContainingView, Dialog, Direction, LoadingSpinn
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked } from '../AccountContext';
 import { GmAccountRow, GmCollectionRow } from '../client/resources';
+import { AccountsTable } from '../components/AccountsTable';
 import { CollectionsTable } from '../components/CollectionsTable';
 import { Footer } from '../components/Footer';
 import { useGlobals } from '../globalsContext';
-import { AccountsTable } from '../components/AccountsTable';
 
 export type UpdateResult = {
   isSuccess: boolean;

@@ -1,15 +1,14 @@
 import React from 'react';
 
+import { KibaException } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked } from '../AccountContext';
+import { GmAccountRow, GmCollectionRow } from '../client/resources';
 import { CollectionsTable } from '../components/CollectionsTable';
 import { Footer } from '../components/Footer';
-import { NotdClient } from '../client/client';
 import { useGlobals } from '../globalsContext';
-import { KibaException } from '@kibalabs/core';
-import { GmAccountRow, GmCollectionRow } from '../client/resources';
 
 export type UpdateResult = {
   isSuccess: boolean;
@@ -97,12 +96,24 @@ export const HomePage = (): React.ReactElement => {
           <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
             <Stack.Item growthFactor={1} shrinkFactor={1}>
               <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
-                <CollectionsTable />
+                {collectionRows === undefined ? (
+                  <LoadingSpinner />
+                ) : collectionRows === null ? (
+                  <Text variant='error'>Failed to load</Text>
+                ) : (
+                  <CollectionsTable rows={collectionRows} />
+                )}
               </Box>
             </Stack.Item>
             <Stack.Item growthFactor={1} shrinkFactor={1}>
               <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
-                <CollectionsTable />
+                {accountRows === undefined ? (
+                  <LoadingSpinner />
+                ) : accountRows === null ? (
+                  <Text variant='error'>Failed to load</Text>
+                ) : (
+                  <CollectionsTable rows={[]} />
+                )}
               </Box>
             </Stack.Item>
           </Stack>
@@ -118,7 +129,7 @@ export const HomePage = (): React.ReactElement => {
               <Button variant='primary-large' text= 'Say GM ⚡️' onClicked={onGmClicked} isLoading={isGming} />
             )}
           </React.Fragment>
-        ) : account === null && (
+        ) : account == null && (
           <React.Fragment>
             <Button variant='primary-large' text= 'Connect to GM ⚡️' onClicked={onConnectWalletClicked} />
             {!hasGmed && (

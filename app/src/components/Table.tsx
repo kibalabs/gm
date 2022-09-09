@@ -60,6 +60,7 @@ export interface IStyledTableHeadRowItemProps {
 
 export const StyledTableHeadRowItem = styled.td<IStyledTableHeadRowItemProps>`
   overflow: hidden;
+  vertical-align: middle;
   ${(props: IStyledTableHeadRowItemProps): string => themeToCss(props.$theme.normal.default.text)};
   ${(props: IStyledTableHeadRowItemProps): string => themeToCss(props.$theme.normal.default.background)};
   /* TODO(krishan711): add the disabled styles */
@@ -103,6 +104,7 @@ export interface IStyledTableBodyRowItemProps {
 
 export const StyledTableBodyRowItem = styled.td<IStyledTableBodyRowItemProps>`
   overflow: hidden;
+  vertical-align: middle;
   ${(props: IStyledTableHeadRowItemProps): string => themeToCss(props.$theme.normal.default.text)};
   ${(props: IStyledTableHeadRowItemProps): string => themeToCss(props.$theme.normal.default.background)};
   /* TODO(krishan711): add the clickable styles */

@@ -24,8 +24,7 @@ export class CreateGmRequest extends RequestData {
 export class CreateGmResponse extends ResponseData {
   // eslint-disable-next-line unused-imports/no-unused-vars
   public static fromObject = (obj: Record<string, unknown>): CreateGmResponse => {
-    return new CreateGmResponse(
-    );
+    return new CreateGmResponse();
   };
 }
 

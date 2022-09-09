@@ -80,7 +80,7 @@ export const AccountControlProvider = (props: IAccountControlProviderProps): Rea
       return;
     }
     // @ts-expect-error
-    return web3.provider.request({ method: 'eth_requestAccounts', params: [] }).then(async (): Promise<void> => {
+    web3.provider.request({ method: 'eth_requestAccounts', params: [] }).then(async (): Promise<void> => {
       await loadWeb3();
     }).catch((error: unknown): void => {
       if ((error as Error).message?.includes('wallet_requestPermissions')) {

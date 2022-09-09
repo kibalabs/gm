@@ -61,6 +61,7 @@ export interface IStyledTableHeadRowItemProps {
 export const StyledTableHeadRowItem = styled.td<IStyledTableHeadRowItemProps>`
   overflow: hidden;
   vertical-align: middle;
+  white-space: nowrap;
   ${(props: IStyledTableHeadRowItemProps): string => themeToCss(props.$theme.normal.default.text)};
   ${(props: IStyledTableHeadRowItemProps): string => themeToCss(props.$theme.normal.default.background)};
   /* TODO(krishan711): add the disabled styles */

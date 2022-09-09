@@ -9,6 +9,7 @@ import { GmAccountRow, GmCollectionRow } from '../client/resources';
 import { CollectionsTable } from '../components/CollectionsTable';
 import { Footer } from '../components/Footer';
 import { useGlobals } from '../globalsContext';
+import { AccountsTable } from '../components/AccountsTable';
 
 export type UpdateResult = {
   isSuccess: boolean;
@@ -101,7 +102,9 @@ export const HomePage = (): React.ReactElement => {
                 ) : collectionRows === null ? (
                   <Text variant='error'>Failed to load</Text>
                 ) : (
-                  <CollectionsTable rows={collectionRows} />
+                  <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
+                    <CollectionsTable rows={collectionRows} />
+                  </Stack>
                 )}
               </Box>
             </Stack.Item>
@@ -112,7 +115,9 @@ export const HomePage = (): React.ReactElement => {
                 ) : accountRows === null ? (
                   <Text variant='error'>Failed to load</Text>
                 ) : (
-                  <CollectionsTable rows={[]} />
+                  <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
+                    <AccountsTable rows={accountRows} />
+                  </Stack>
                 )}
               </Box>
             </Stack.Item>

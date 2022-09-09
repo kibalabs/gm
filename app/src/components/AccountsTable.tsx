@@ -2,46 +2,38 @@ import React from 'react';
 
 import { Alignment, Box, Direction, Image, Stack, Text, useBuiltTheme } from '@kibalabs/ui-react';
 
-import { Collection, GmCollectionRow } from '../client/resources';
+import { GmAccountRow } from '../client/resources';
+import { AccountViewLink } from './AccountView';
 import { HeaderCell, ITableCellTheme, ITableTheme, StyledTable, StyledTableBody, StyledTableBodyRow, StyledTableBodyRowItem, StyledTableHead, StyledTableHeadRow } from './Table';
 
-// interface IUserCellContentProps {
-//   address: string;
-// }
-
-// const UserCellContent = (props: IUserCellContentProps): React.ReactElement => {
-//   return (
-//     <Stack direction={Direction.Horizontal} isFullWidth={false} contentAlignment={Alignment.Start} childAlignment={Alignment.Center} shouldAddGutters={true}>
-//       <AccountViewLink address={props.address} target={`/accounts/${props.address}`} />
-//     </Stack>
-//   );
-// };
-
-interface ICollectionCellContentProps {
-  collection: Collection;
+const areDatesSameDay = (date1: Date, date2: Date): boolean => {
+  return date1.getFullYear() === date2.getFullYear() &&
+  date1.getMonth() === date2.getMonth() &&
+  date1.getDate() === date2.getDate();
 }
 
-const CollectionCellContent = (props: ICollectionCellContentProps): React.ReactElement => {
+interface IUserCellContentProps {
+  address: string;
+}
+
+const UserCellContent = (props: IUserCellContentProps): React.ReactElement => {
   return (
-    <Stack key={props.collection.address} direction={Direction.Horizontal} isFullWidth={false} isFullHeight={true} contentAlignment={Alignment.Start} childAlignment={Alignment.Center} shouldAddGutters={true}>
-      <Box variant='rounded' shouldClipContent={true} height={'1.5em'} width={'1.5em'}>
-        <Image isLazyLoadable={true} source={props.collection.imageUrl || ''} alternativeText='.' />
-      </Box>
-      <Text>{props.collection.name}</Text>
+    <Stack direction={Direction.Horizontal} isFullWidth={false} contentAlignment={Alignment.Start} childAlignment={Alignment.Center} shouldAddGutters={true}>
+      <AccountViewLink address={props.address} target={`/accounts/${props.address}`} />
     </Stack>
   );
 };
 
-interface ICollectionsTableProps {
-  rows: GmCollectionRow[];
+interface IAccountsTableProps {
+  rows: GmAccountRow[];
 }
 
-export const DEFAULT_SORT = 'STATTODAY_DESC';
+export const DEFAULT_SORT = 'STATSTERAK_DESC';
 
-const DUMMY_ROW: GmCollectionRow = { collection: new Collection('0x1', 'collection1', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 };
+const DUMMY_ROW: GmAccountRow = { address: '0x1', lastDate: new Date(), streakLength: 0, weekCount: 0, monthCount: 0 };
 
 
-export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElement => {
+export const AccountsTable = (props: IAccountsTableProps): React.ReactElement => {
   const tableTheme = useBuiltTheme<ITableTheme>('tables');
   const tableHeaderCellTheme = useBuiltTheme<ITableCellTheme>('tableCells', 'header');
   const tableCellTheme = useBuiltTheme<ITableCellTheme>('tableCells');
@@ -70,8 +62,9 @@ export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElem
       <StyledTableHead>
         <StyledTableHeadRow>
           <HeaderCell theme={tableHeaderCellTheme} headerId='INDEX' title='' isOrderable={false} orderDirection={null} />
-          <HeaderCell theme={tableHeaderCellTheme} headerId='COLLECTION' title='Collections' textVariant='bold' contentAlignment={Alignment.Start} isOrderable={false} orderDirection={null} />
+          <HeaderCell theme={tableHeaderCellTheme} headerId='USER' title='Collectooors' textVariant='bold' contentAlignment={Alignment.Start} isOrderable={false} orderDirection={null} />
           <HeaderCell theme={tableHeaderCellTheme} headerId='STATTODAY' title='Today' textVariant='note' isOrderable={false} />
+          <HeaderCell theme={tableHeaderCellTheme} headerId='STATSTERAK' title='Streak' textVariant='note' isOrderable={false} />
           {/* orderDirection={orderField === 'JOINDATE' ? (orderDirection === 'DESC' ? -1 : 1) : null} onClicked={onHeaderClicked} /> */}
           <HeaderCell theme={tableHeaderCellTheme} headerId='STATWEEK' title='Week' textVariant='note' isOrderable={false} />
           {/* orderDirection={orderField === 'TOKENCOUNT' ? (orderDirection === 'DESC' ? -1 : 1) : null} onClicked={onHeaderClicked} /> */}
@@ -80,16 +73,19 @@ export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElem
         </StyledTableHeadRow>
       </StyledTableHead>
       <StyledTableBody>
-        {(props.rows || Array(pageSize).fill(DUMMY_ROW)).map((row: GmCollectionRow, index: number): React.ReactElement => (
-          <StyledTableBodyRow key={row.collection.address}>
+        {(props.rows || Array(pageSize).fill(DUMMY_ROW)).map((row: GmAccountRow, index: number): React.ReactElement => (
+          <StyledTableBodyRow key={row.address}>
             <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em', paddingRight: '0' }}>
               <Text variant='note'>{(pageSize * page) + index + 1}</Text>
             </StyledTableBodyRowItem>
             <StyledTableBodyRowItem $theme={tableCellTheme} style={{ width: '99%', paddingLeft: '0' }}>
-              <CollectionCellContent collection={row.collection} />
+              <UserCellContent address={row.address} />
             </StyledTableBodyRowItem>
             <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
-              {row.todayCount}
+              {areDatesSameDay(row.lastDate, new Date()) ? '✅' : '◾️'}
+            </StyledTableBodyRowItem>
+            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+              {row.streakLength}
             </StyledTableBodyRowItem>
             <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
               {row.weekCount}
@@ -98,7 +94,7 @@ export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElem
               {row.monthCount}
             </StyledTableBodyRowItem>
           </StyledTableBodyRow>
-        ))}
+      ))}
       </StyledTableBody>
     </StyledTable>
   );

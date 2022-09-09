@@ -53,7 +53,7 @@ export const App = (props: IAppProps): React.ReactElement => {
   ];
 
   return (
-    <KibaApp theme={theme} background={{ linearGradient: 'rgb(0, 0, 0), rgb(25, 24, 37)' }} setHead={props.setHead} isFullPageApp={true}>
+    <KibaApp theme={theme} background={{ linearGradient: '#181500,#000000' }} setHead={props.setHead} isFullPageApp={true}>
       <Head headId='app'>
         <title>GM ☀️</title>
       </Head>

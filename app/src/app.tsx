@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Requester } from '@kibalabs/core';
-import { IRoute, Router, useInitialization } from '@kibalabs/core-react';
+import { LocalStorageClient, Requester } from '@kibalabs/core';
+import { IRoute, MockStorage, Router, useInitialization } from '@kibalabs/core-react';
 import { Head, IHeadRootProviderProps, KibaApp } from '@kibalabs/ui-react';
 import { ToastContainer } from 'react-toastify';
 import { Web3Storage } from 'web3.storage';
@@ -23,6 +23,7 @@ declare global {
 const requester = new Requester(undefined, undefined, false);
 const web3StorageClient = new Web3Storage({ token: typeof window !== 'undefined' ? window.KRT_WEB3STORAGE_API_KEY ?? '' : '' });
 const notdClient = new NotdClient(requester, typeof window !== 'undefined' ? window.KRT_API_URL : undefined);
+const localStorageClient = new LocalStorageClient(typeof window !== 'undefined' ? window.localStorage : new MockStorage());
 
 const theme = buildAppTheme();
 // const tracker = new EveryviewTracker('26c8cdc5634542969311db49441ce95b', true);
@@ -30,6 +31,7 @@ const theme = buildAppTheme();
 const globals: IGlobals = {
   web3StorageClient,
   notdClient,
+  localStorageClient,
 };
 
 export interface IAppProps extends IHeadRootProviderProps {
@@ -55,11 +57,11 @@ export const App = (props: IAppProps): React.ReactElement => {
       <Head headId='app'>
         <title>GM ☀️</title>
       </Head>
-      <AccountControlProvider>
-        <GlobalsProvider globals={globals}>
+      <GlobalsProvider globals={globals}>
+        <AccountControlProvider>
           <Router staticPath={props.staticPath} routes={routes} />
-        </GlobalsProvider>
-      </AccountControlProvider>
+        </AccountControlProvider>
+      </GlobalsProvider>
       <ToastContainer />
     </KibaApp>
   );

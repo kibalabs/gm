@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { KibaException } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
 
-import { useAccount, useOnLinkAccountsClicked } from '../AccountContext';
+import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked } from '../AccountContext';
+import { GmAccountRow, GmCollectionRow } from '../client/resources';
 import { CollectionsTable } from '../components/CollectionsTable';
 import { Footer } from '../components/Footer';
+import { useGlobals } from '../globalsContext';
 
 export type UpdateResult = {
   isSuccess: boolean;
@@ -13,11 +16,16 @@ export type UpdateResult = {
 }
 
 export const HomePage = (): React.ReactElement => {
+  const { notdClient } = useGlobals();
   const account = useAccount();
+  const loginSignature = useLoginSignature();
+  const onAccountLoginClicked = useOnLoginClicked();
   const navigator = useNavigator();
   const location = useLocation();
   const [isGming, setIsGming] = React.useState<boolean>(false);
   const [hasGmed, setHasGmed] = React.useState<boolean>(false);
+  const [accountRows, setAccountRows] = React.useState<GmAccountRow[] | undefined | null>(undefined);
+  const [collectionRows, setCollectionRows] = React.useState<GmCollectionRow[] | undefined | null>(undefined);
 
   const onLinkAccountsClicked = useOnLinkAccountsClicked();
 
@@ -29,12 +37,44 @@ export const HomePage = (): React.ReactElement => {
     navigator.navigateTo('/');
   };
 
+  const loadData = React.useCallback((): void => {
+    notdClient.listGmAccountRows().then((retrievedAccountRows: GmAccountRow[]): void => {
+      setAccountRows(retrievedAccountRows);
+    }).catch((error: unknown): void => {
+      console.error(error);
+      setAccountRows(null);
+    });
+    notdClient.listGmCollectionRows().then((retrievedCollectionRows: GmCollectionRow[]): void => {
+      setCollectionRows(retrievedCollectionRows);
+    }).catch((error: unknown): void => {
+      console.error(error);
+      setCollectionRows(null);
+    });
+  }, [notdClient]);
+
+  React.useEffect((): void => {
+    loadData();
+  }, [loadData]);
+
+  const onLoginClicked = async (): Promise<void> => {
+    let signature = loginSignature;
+    if (!signature) {
+      signature = await onAccountLoginClicked();
+    }
+  };
+
   const onGmClicked = (): void => {
+    if (!account || !loginSignature) {
+      return;
+    }
     setIsGming(true);
-    setTimeout((): void => {
+    notdClient.createGm(account.address, loginSignature.message, loginSignature.signature).then((): void => {
       setHasGmed(true);
       setIsGming(false);
-    }, 2000);
+    }).catch((error: KibaException): void => {
+      console.error(error);
+      setIsGming(false);
+    });
   };
 
   const onGmAnonymouslyClicked = (): void => {
@@ -56,12 +96,24 @@ export const HomePage = (): React.ReactElement => {
           <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
             <Stack.Item growthFactor={1} shrinkFactor={1}>
               <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
-                <CollectionsTable />
+                {collectionRows === undefined ? (
+                  <LoadingSpinner />
+                ) : collectionRows === null ? (
+                  <Text variant='error'>Failed to load</Text>
+                ) : (
+                  <CollectionsTable rows={collectionRows} />
+                )}
               </Box>
             </Stack.Item>
             <Stack.Item growthFactor={1} shrinkFactor={1}>
               <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
-                <CollectionsTable />
+                {accountRows === undefined ? (
+                  <LoadingSpinner />
+                ) : accountRows === null ? (
+                  <Text variant='error'>Failed to load</Text>
+                ) : (
+                  <CollectionsTable rows={[]} />
+                )}
               </Box>
             </Stack.Item>
           </Stack>
@@ -69,13 +121,15 @@ export const HomePage = (): React.ReactElement => {
         <Spacing variant={PaddingSize.Narrow4} />
         {account ? (
           <React.Fragment>
-            {hasGmed ? (
+            {!loginSignature ? (
+              <Button variant='primary-large' text= 'Log in to say GM ⚡️' onClicked={onLoginClicked} isLoading={isGming} />
+            ) : hasGmed ? (
               <Text>thanks, tell your friends!</Text>
             ) : (
               <Button variant='primary-large' text= 'Say GM ⚡️' onClicked={onGmClicked} isLoading={isGming} />
             )}
           </React.Fragment>
-        ) : account === null && (
+        ) : account == null && (
           <React.Fragment>
             <Button variant='primary-large' text= 'Connect to GM ⚡️' onClicked={onConnectWalletClicked} />
             {!hasGmed && (

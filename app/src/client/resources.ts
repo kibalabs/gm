@@ -1,4 +1,4 @@
-import { ResponseData } from '@kibalabs/core';
+import { dateFromString, ResponseData } from '@kibalabs/core';
 
 export class TokenAttribute {
   readonly traitType: string;
@@ -75,6 +75,55 @@ export class CollectionToken {
       obj.description ? String(obj.description) : null,
       (obj.attributes as Record<string, unknown>[]).map((innerObj: Record<string, unknown>) => TokenAttribute.fromObject(innerObj)),
       obj.frameImageUrl ? String(obj.frameImageUrl) : null,
+    );
+  };
+}
+
+export class GmCollectionRow {
+  readonly collection: Collection;
+  readonly todayCount: number;
+  readonly weekCount: number;
+  readonly monthCount: number;
+
+  public constructor(collection: Collection, todayCount: number, weekCount: number, monthCount: number) {
+    this.collection = collection;
+    this.todayCount = todayCount;
+    this.weekCount = weekCount;
+    this.monthCount = monthCount;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): GmCollectionRow => {
+    return new GmCollectionRow(
+      Collection.fromObject(obj.collection as Record<string, unknown>),
+      Number(obj.todayCount),
+      Number(obj.weekCount),
+      Number(obj.monthCount),
+    );
+  };
+}
+
+export class GmAccountRow {
+  readonly address: string;
+  readonly lastDate: Date;
+  readonly weekCount: number;
+  readonly monthCount: number;
+  readonly streakLength: number;
+
+  public constructor(address: string, lastDate: Date, weekCount: number, monthCount: number, streakLength: number) {
+    this.address = address;
+    this.lastDate = lastDate;
+    this.weekCount = weekCount;
+    this.monthCount = monthCount;
+    this.streakLength = streakLength;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): GmAccountRow => {
+    return new GmAccountRow(
+      String(obj.address),
+      dateFromString(obj.lastDate as string),
+      Number(obj.weekCount),
+      Number(obj.monthCount),
+      Number(obj.streakLength),
     );
   };
 }

@@ -2,30 +2,65 @@ import { RequestData, ResponseData } from '@kibalabs/core';
 
 import * as Resources from './resources';
 
-export class GetOwnerTokensRequest extends RequestData {
-}
 
-export class GetOwnerTokensResponse extends ResponseData {
-  readonly tokens: Resources.CollectionToken[];
-
-  public constructor(token: Resources.CollectionToken[]) {
+export class CreateGmRequest extends RequestData {
+  public constructor(
+    readonly account: string,
+    readonly signatureMessage: string,
+    readonly signature: string,
+  ) {
     super();
-    this.tokens = token;
   }
 
-  public static fromObject = (obj: Record<string, unknown>): GetOwnerTokensResponse => {
-    return new GetOwnerTokensResponse(
-      (obj.tokens as Record<string, unknown>[]).map((innerObj: Record<string, unknown>) => Resources.CollectionToken.fromObject(innerObj)),
+  public toObject = (): Record<string, unknown> => {
+    return {
+      account: this.account,
+      signatureMessage: this.signatureMessage,
+      signature: this.signature,
+    };
+  };
+}
+
+export class CreateGmResponse extends ResponseData {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  public static fromObject = (obj: Record<string, unknown>): CreateGmResponse => {
+    return new CreateGmResponse(
     );
   };
 }
 
-export class RefreshAccountTokenOwnershipsRequest extends RequestData {
+export class ListGmAccountRowsRequest extends RequestData {
 }
 
-export class RefreshAccountTokenOwnershipsResponse extends ResponseData {
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  public static fromObject = (obj: Record<string, unknown>): RefreshAccountTokenOwnershipsResponse => {
-    return new RefreshAccountTokenOwnershipsResponse();
+export class ListGmAccountRowsResponse extends ResponseData {
+  readonly accountRows: Resources.GmAccountRow[];
+
+  public constructor(accountRows: Resources.GmAccountRow[]) {
+    super();
+    this.accountRows = accountRows;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): ListGmAccountRowsResponse => {
+    return new ListGmAccountRowsResponse(
+      (obj.accountRows as Record<string, unknown>[]).map((innerObj: Record<string, unknown>) => Resources.GmAccountRow.fromObject(innerObj)),
+    );
+  };
+}
+
+export class ListGmCollectionRowsRequest extends RequestData {
+}
+
+export class ListGmCollectionRowsResponse extends ResponseData {
+  readonly collectionRows: Resources.GmCollectionRow[];
+
+  public constructor(collectionRows: Resources.GmCollectionRow[]) {
+    super();
+    this.collectionRows = collectionRows;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): ListGmCollectionRowsResponse => {
+    return new ListGmCollectionRowsResponse(
+      (obj.collectionRows as Record<string, unknown>[]).map((innerObj: Record<string, unknown>) => Resources.GmCollectionRow.fromObject(innerObj)),
+    );
   };
 }

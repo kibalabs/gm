@@ -34,6 +34,8 @@ export const buildAppTheme = (): ITheme => {
       wrapped: {
         'overflow-wrap': 'anywhere',
       },
+      footer: {
+      },
     },
     prettyTexts: {
       header3: {
@@ -64,6 +66,8 @@ export const buildAppTheme = (): ITheme => {
         'border-style': 'solid',
         'border-width': '1px',
         'border-color': 'rgba(255, 255, 255, 0.2)',
+      },
+      footer: {
       },
     },
     pills: {

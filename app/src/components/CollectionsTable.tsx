@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Alignment, Box, Direction, Image, Stack, Text, useBuiltTheme } from '@kibalabs/ui-react';
 
-import { Collection } from '../client/resources';
+import { Collection, GmCollectionRow } from '../client/resources';
 import { HeaderCell, ITableCellTheme, ITableTheme, StyledTable, StyledTableBody, StyledTableBodyRow, StyledTableBodyRowItem, StyledTableHead, StyledTableHeadRow } from './Table';
 
 // interface IUserCellContentProps {
@@ -32,19 +32,12 @@ const CollectionCellContent = (props: ICollectionCellContentProps): React.ReactE
   );
 };
 
-interface ICollectionRow {
-  collection: Collection;
-  todayCount: number;
-  weekCount: number;
-  monthCount: number;
-}
-
 interface ICollectionsTableProps {
 }
 
 export const DEFAULT_SORT = 'STATTODAY_DESC';
 
-const DUMMY_ROW: ICollectionRow = { collection: new Collection('0x1', 'collection1', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 };
+const DUMMY_ROW: GmCollectionRow = { collection: new Collection('0x1', 'collection1', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 };
 
 // eslint-disable-next-line unused-imports/no-unused-vars
 export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElement => {
@@ -54,7 +47,7 @@ export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElem
   // const [queryOrder, setOrder] = useUrlQueryState('order', undefined, DEFAULT_SORT);
   // const [queryPage, setPage] = useIntegerUrlQueryState('page', undefined);
   // const [pageCount, setPageCount] = React.useState<number>(0);
-  const rows: ICollectionRow[] = [
+  const rows: GmCollectionRow[] = [
     { collection: new Collection('0x1', 'collection1', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 },
     { collection: new Collection('0x2', 'collection2', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 },
     { collection: new Collection('0x3', 'collection3', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 },
@@ -99,18 +92,15 @@ export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElem
           <HeaderCell theme={tableHeaderCellTheme} headerId='INDEX' title='' isOrderable={false} orderDirection={null} />
           <HeaderCell theme={tableHeaderCellTheme} headerId='COLLECTION' title='Collections' textVariant='bold' contentAlignment={Alignment.Start} isOrderable={false} orderDirection={null} />
           <HeaderCell theme={tableHeaderCellTheme} headerId='STATTODAY' title='Today' textVariant='note' isOrderable={false} />
-          {' '}
           {/* orderDirection={orderField === 'JOINDATE' ? (orderDirection === 'DESC' ? -1 : 1) : null} onClicked={onHeaderClicked} /> */}
           <HeaderCell theme={tableHeaderCellTheme} headerId='STATWEEK' title='Week' textVariant='note' isOrderable={false} />
-          {' '}
           {/* orderDirection={orderField === 'TOKENCOUNT' ? (orderDirection === 'DESC' ? -1 : 1) : null} onClicked={onHeaderClicked} /> */}
           <HeaderCell theme={tableHeaderCellTheme} headerId='STATMONTH' title='Month' textVariant='note' isOrderable={false} />
-          {' '}
           {/* orderDirection={orderField === 'FOLLOWERCOUNT' ? (orderDirection === 'DESC' ? -1 : 1) : null} onClicked={onHeaderClicked} /> */}
         </StyledTableHeadRow>
       </StyledTableHead>
       <StyledTableBody>
-        {(rows || Array(pageSize).fill(DUMMY_ROW)).map((row: ICollectionRow, index: number): React.ReactElement => (
+        {(rows || Array(pageSize).fill(DUMMY_ROW)).map((row: GmCollectionRow, index: number): React.ReactElement => (
           <StyledTableBodyRow key={row.collection.address}>
             <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em', paddingRight: '0' }}>
               <Text variant='note'>{(pageSize * page) + index + 1}</Text>

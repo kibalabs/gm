@@ -4,8 +4,8 @@ import { dateToString } from '@kibalabs/core';
 import { IMultiAnyChildProps, useInitialization } from '@kibalabs/core-react';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
-import { toast } from 'react-toastify';
 
+import { useToastManager } from './components/Toast';
 import { useGlobals } from './globalsContext';
 
 export type Account = {
@@ -33,6 +33,7 @@ interface IAccountControlProviderProps extends IMultiAnyChildProps {
 
 export const AccountControlProvider = (props: IAccountControlProviderProps): React.ReactElement => {
   const { localStorageClient } = useGlobals();
+  const toastManager = useToastManager();
   const [web3, setWeb3] = React.useState<ethers.providers.Web3Provider | null | undefined>(undefined);
   const [account, setAccount] = React.useState<Account | undefined | null>(undefined);
   const [loginCount, setLoginCount] = React.useState<number>(0);
@@ -84,9 +85,9 @@ export const AccountControlProvider = (props: IAccountControlProviderProps): Rea
       await loadWeb3();
     }).catch((error: unknown): void => {
       if ((error as Error).message?.includes('wallet_requestPermissions')) {
-        toast.error('You already have a MetaMask request window open, please find it!');
+        toastManager.showToast('error', 'You already have a MetaMask request window open, please find it!');
       } else {
-        toast.error('Something went wrong connecting to MetaMask. Please try refresh the page / your browser and try again');
+        toastManager.showToast('error', 'Something went wrong connecting to MetaMask. Please try refresh the page / your browser and try again');
       }
     });
   };

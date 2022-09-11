@@ -3,12 +3,11 @@ import React from 'react';
 import { LocalStorageClient, Requester } from '@kibalabs/core';
 import { IRoute, MockStorage, Router, useInitialization } from '@kibalabs/core-react';
 import { Head, IHeadRootProviderProps, KibaApp } from '@kibalabs/ui-react';
-import { ToastContainer } from 'react-toastify';
 import { Web3Storage } from 'web3.storage';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { AccountControlProvider } from './AccountContext';
 import { NotdClient } from './client/client';
+import { KibaToastContainer } from './components/Toast';
 import { GlobalsProvider, IGlobals } from './globalsContext';
 import { AboutPage } from './pages/AboutPage';
 import { HomePage } from './pages/HomePage';
@@ -62,7 +61,7 @@ export const App = (props: IAppProps): React.ReactElement => {
           <Router staticPath={props.staticPath} routes={routes} />
         </AccountControlProvider>
       </GlobalsProvider>
-      <ToastContainer />
+      <KibaToastContainer />
     </KibaApp>
   );
 };

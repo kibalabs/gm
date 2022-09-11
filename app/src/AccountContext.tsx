@@ -109,7 +109,14 @@ export const AccountControlProvider = (props: IAccountControlProviderProps): Rea
     if (!account) {
       return null;
     }
-    const message = `TOKEN_PAGE_LOGIN - ${dateToString(new Date())}`;
+    const message = `This one-time signature simply proves you're the owner of the wallet address:
+
+${account.address}
+
+Signature transactions do not affect your assets in any way.
+
+Date: ${dateToString(new Date())}
+    `;
     try {
       const signature = await account.signer.signMessage(message);
       const newLoginSignature = { message, signature };

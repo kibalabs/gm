@@ -118,7 +118,7 @@ export const HomePage = (): React.ReactElement => {
     return (): void => {
       sse.close();
     };
-  }, [notdClient, toastManager]);
+  }, [notdClient, toastManager, web3]);
 
   const isAboutSubpageShowing = location.pathname.includes('/about');
   const isSubpageShowing = isAboutSubpageShowing;

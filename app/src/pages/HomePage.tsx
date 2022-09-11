@@ -108,7 +108,7 @@ export const HomePage = (): React.ReactElement => {
             </Stack>
           </Box>
         );
-        toastManager.showCustomToast(toastView, undefined, true);
+        toastManager.showCustomToast(toastView);
       });
     };
     sse.onerror = (error: unknown): void => {

@@ -15,6 +15,13 @@ export class NotdClient extends ServiceClient {
     await this.makeRequest(method, path, request, Endpoints.CreateGmResponse);
   };
 
+  public createAnonymousGm = async (): Promise<void> => {
+    const method = RestMethod.POST;
+    const path = 'gm/v1/anonymous-gm';
+    const request = new Endpoints.CreateAnonymousGmRequest();
+    await this.makeRequest(method, path, request, Endpoints.CreateAnonymousGmResponse);
+  };
+
   public listGmAccountRows = async (): Promise<Resources.GmAccountRow[]> => {
     const method = RestMethod.GET;
     const path = 'gm/v1/account-rows';

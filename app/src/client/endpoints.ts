@@ -28,6 +28,16 @@ export class CreateGmResponse extends ResponseData {
   };
 }
 
+export class CreateAnonymousGmRequest extends RequestData {
+}
+
+export class CreateAnonymousGmResponse extends ResponseData {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  public static fromObject = (obj: Record<string, unknown>): CreateAnonymousGmResponse => {
+    return new CreateAnonymousGmResponse();
+  };
+}
+
 export class ListGmAccountRowsRequest extends RequestData {
 }
 

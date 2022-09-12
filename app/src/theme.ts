@@ -37,7 +37,8 @@ export const buildAppTheme = (): ITheme => {
       footer: {
       },
       notification: {
-        'font-size': baseTheme.texts.note['font-size'],
+        // 'font-size': baseTheme.texts.note['font-size'],
+        'font-size': baseTheme.texts.default['font-size'],
       },
     },
     prettyTexts: {
@@ -61,7 +62,8 @@ export const buildAppTheme = (): ITheme => {
         margin: '0',
       }),
       notificationGm: mergeThemePartial(baseTheme.boxes.card, {
-        padding: `${baseTheme.dimensions.paddingNarrow} ${baseTheme.dimensions.padding}`,
+        // padding: `${baseTheme.dimensions.paddingNarrow} ${baseTheme.dimensions.padding}`,
+        padding: `${baseTheme.dimensions.padding} ${baseTheme.dimensions.paddingWide}`,
         'border-width': '0',
         margin: '0',
       }),

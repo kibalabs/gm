@@ -2,11 +2,13 @@ import React from 'react';
 
 import { LocalStorageClient, Requester } from '@kibalabs/core';
 import { IRoute, MockStorage, Router, useInitialization } from '@kibalabs/core-react';
-import { Head, IHeadRootProviderProps, KibaApp } from '@kibalabs/ui-react';
+import { Head, IHeadRootProviderProps, KibaApp, ResponsiveHidingView, ScreenSize } from '@kibalabs/ui-react';
 import { Web3Storage } from 'web3.storage';
 
 import { AccountControlProvider } from './AccountContext';
 import { NotdClient } from './client/client';
+import { FloatingView } from './components/FloatingView';
+import { Footer } from './components/Footer';
 import { KibaToastContainer } from './components/Toast';
 import { GlobalsProvider, IGlobals } from './globalsContext';
 import { AboutPage } from './pages/AboutPage';
@@ -47,7 +49,7 @@ export const App = (props: IAppProps): React.ReactElement => {
     { path: '/',
       page: HomePage,
       subRoutes: [
-        { path: '/frames', page: AboutPage },
+        { path: '/about', page: AboutPage },
       ] },
   ];
 
@@ -59,9 +61,14 @@ export const App = (props: IAppProps): React.ReactElement => {
       <GlobalsProvider globals={globals}>
         <AccountControlProvider>
           <Router staticPath={props.staticPath} routes={routes} />
+          <ResponsiveHidingView hiddenBelow={ScreenSize.Medium}>
+            <FloatingView positionBottom='20px' positionRight='20px'>
+              <Footer isSmall={true} tokenPageReferral='gm' />
+            </FloatingView>
+          </ResponsiveHidingView>
+          <KibaToastContainer />
         </AccountControlProvider>
       </GlobalsProvider>
-      <KibaToastContainer />
     </KibaApp>
   );
 };

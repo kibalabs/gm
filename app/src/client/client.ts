@@ -8,11 +8,12 @@ export class NotdClient extends ServiceClient {
     super(requester, baseUrl || 'https://notd-api.kibalabs.com');
   }
 
-  public createGm = async (account: string, signatureMessage: string, signature: string): Promise<void> => {
+  public createGm = async (account: string, signatureMessage: string, signature: string): Promise<Resources.AccountGm> => {
     const method = RestMethod.POST;
     const path = 'gm/v1/gm';
     const request = new Endpoints.CreateGmRequest(account, signatureMessage, signature);
-    await this.makeRequest(method, path, request, Endpoints.CreateGmResponse);
+    const response = await this.makeRequest(method, path, request, Endpoints.CreateGmResponse);
+    return response.accountGm;
   };
 
   public createAnonymousGm = async (): Promise<void> => {

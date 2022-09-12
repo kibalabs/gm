@@ -2,10 +2,10 @@ import React from 'react';
 
 import { KibaException, truncateMiddle } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked, useWeb3 } from '../AccountContext';
-import { GmAccountRow, GmCollectionRow } from '../client/resources';
+import { AccountGm, GmAccountRow, GmCollectionRow } from '../client/resources';
 import { AccountsTable } from '../components/AccountsTable';
 import { getEnsName } from '../components/AccountView';
 import { CollectionsTable } from '../components/CollectionsTable';
@@ -25,14 +25,16 @@ export const HomePage = (): React.ReactElement => {
   const account = useAccount();
   const loginSignature = useLoginSignature();
   const onAccountLoginClicked = useOnLoginClicked();
+  const onLinkAccountsClicked = useOnLinkAccountsClicked();
   const navigator = useNavigator();
   const location = useLocation();
   const [isGming, setIsGming] = React.useState<boolean>(false);
-  const [hasGmed, setHasGmed] = React.useState<boolean>(false);
+  const [accountGm, setAccountGm] = React.useState<AccountGm | null>(null);
   const [accountRows, setAccountRows] = React.useState<GmAccountRow[] | undefined | null>(undefined);
   const [collectionRows, setCollectionRows] = React.useState<GmCollectionRow[] | undefined | null>(undefined);
 
-  const onLinkAccountsClicked = useOnLinkAccountsClicked();
+  const isAboutSubpageShowing = location.pathname.includes('/about');
+  const isSubpageShowing = isAboutSubpageShowing;
 
   const onConnectWalletClicked = async (): Promise<void> => {
     await onLinkAccountsClicked();
@@ -73,9 +75,10 @@ export const HomePage = (): React.ReactElement => {
       return;
     }
     setIsGming(true);
-    notdClient.createGm(account.address, loginSignature.message, loginSignature.signature).then((): void => {
-      setHasGmed(true);
+    notdClient.createGm(account.address, loginSignature.message, loginSignature.signature).then((retrievedAccountGm: AccountGm): void => {
+      setAccountGm(retrievedAccountGm);
       setIsGming(false);
+      loadData();
     }).catch((error: KibaException): void => {
       console.error(error);
       setIsGming(false);
@@ -85,12 +88,19 @@ export const HomePage = (): React.ReactElement => {
   const onGmAnonymouslyClicked = (): void => {
     setIsGming(true);
     notdClient.createAnonymousGm().then((): void => {
-      setHasGmed(true);
       setIsGming(false);
+      loadData();
     }).catch((error: KibaException): void => {
       console.error(error);
       setIsGming(false);
     });
+  };
+
+  const getTwitterShareText = (): string => {
+    if (accountGm) {
+      return `GM frens! I just GM'd on behalf of ${accountGm.collectionCount} communities and got them higher up the GM board 🚀 Go rep your communities too at https://gm.tokenpage.xyz ⚡️`;
+    }
+    return 'GM frens! Go rep your communities too at https://gm.tokenpage.xyz ⚡️';
   };
 
   React.useEffect(() => {
@@ -98,17 +108,20 @@ export const HomePage = (): React.ReactElement => {
     sse.onmessage = (event: MessageEvent): void => {
       const eventData = JSON.parse(event.data);
       getEnsName(eventData.address, web3).then((name: string | null): void => {
+        const toastId = event.lastEventId;
         const displayName = name ?? (eventData.address ? truncateMiddle(eventData.address, 10) : 'anon');
         const toastView = (
-          <Box variant='notificationGm' isFullWidth={false}>
-            <Stack direction={Direction.Horizontal} shouldAddGutters={true}>
-              <Text variant='notification'>👋</Text>
-              <Text variant='notification-bold'>gm</Text>
-              <Text variant='notification'>{displayName}</Text>
-            </Stack>
-          </Box>
+          <LinkBase onClicked={(): void => toastManager.dismissToast(toastId)}>
+            <Box variant='notificationGm' isFullWidth={false}>
+              <Stack direction={Direction.Horizontal} shouldAddGutters={true}>
+                <Text variant='notification'>👋</Text>
+                <Text variant='notification-bold'>gm</Text>
+                <Text variant='notification'>{displayName}</Text>
+              </Stack>
+            </Box>
+          </LinkBase>
         );
-        toastManager.showCustomToast(toastView);
+        toastManager.showCustomToast(toastView, toastId, undefined, 30);
       });
     };
     sse.onerror = (error: unknown): void => {
@@ -119,9 +132,6 @@ export const HomePage = (): React.ReactElement => {
       sse.close();
     };
   }, [notdClient, toastManager, web3]);
-
-  const isAboutSubpageShowing = location.pathname.includes('/about');
-  const isSubpageShowing = isAboutSubpageShowing;
 
   return (
     <React.Fragment>
@@ -162,37 +172,28 @@ export const HomePage = (): React.ReactElement => {
           {account ? (
             <React.Fragment>
               {!loginSignature ? (
-                <Button variant='primary-large' text= 'Log in to say GM ⚡️' onClicked={onLoginClicked} isLoading={isGming} />
-              ) : hasGmed ? (
-                <Text>thanks, tell your friends!</Text>
+                <Button variant='primary-large' text='Log in to say GM ⚡️' onClicked={onLoginClicked} isLoading={isGming} />
+              ) : accountGm ? (
+                <Box width='90%' maxWidth='550px'>
+                  <Stack direction={Direction.Vertical} shouldAddGutters={true}>
+                    <Text alignment={TextAlignment.Center} variant='large-bold'>GM fren!!</Text>
+                    <Text alignment={TextAlignment.Center}>{`Your current streak is ${accountGm.streakLength} 🚀🚀 Come back tomorrow to keep it going!`}</Text>
+                    <Text alignment={TextAlignment.Center}>{`You got ${accountGm.collectionCount} communities higher up the board. Get your fellow collectors GM-ing here to get them to the top 👆`}</Text>
+                    <Button variant='primary' text='Share on Twitter' target={`https://twitter.com/intent/tweet?text=${encodeURIComponent(getTwitterShareText())}`} />
+                  </Stack>
+                </Box>
               ) : (
-                <Button variant='primary-large' text= 'Say GM ⚡️' onClicked={onGmClicked} isLoading={isGming} />
+                <Button variant='primary-large' text='Say GM ⚡️' onClicked={onGmClicked} isLoading={isGming} />
               )}
             </React.Fragment>
           ) : account == null && (
             <React.Fragment>
-              <Button variant='primary-large' text= 'Connect to GM ⚡️' onClicked={onConnectWalletClicked} />
-              {!hasGmed && (
-                <Button variant='small' text= 'anon gm' onClicked={onGmAnonymouslyClicked} />
-              )}
+              <Button variant='primary-large' text='Connect to GM ⚡️' onClicked={onConnectWalletClicked} />
+              <Button variant='small' text='anon gm' onClicked={onGmAnonymouslyClicked} />
             </React.Fragment>
           )}
           <Footer tokenPageReferral='gm' isSmall={true} />
         </Stack>
-        {/* <EnsInstructionsDialog
-          isOpen={isEnsInstructionsOpen}
-          imageIpfsUrl={imageIpfsUrl}
-          onCloseClicked={onEnsInstructionsCloseClicked}
-          onUploadClicked={onUploadClicked}
-        /> */}
-        {/* <MessageDialog
-          isOpen={isSkipDialogShowing}
-          message={'PFP Kit works best when you connect your account.\n\nIt&apos;s completely safe - PFP Kit will never ask you to sign a transaction so there&apos;s no risk involved, the connection is just to find your public information on the blockchain.\n\nBy connecting your wallet we can quickly verify all the NFTs you own and streamline your experience down to just a few seconds ⚡⚡'}
-          confirmButtonText='Skip anyway'
-          cancelButtonText='Cancel'
-          onCloseClicked={onSkipCancelClicked}
-          onConfirmClicked={onSkipConfirmClicked}
-        /> */}
         {isSubpageShowing && (
           <Dialog
             isOpen={true}

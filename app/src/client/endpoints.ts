@@ -22,9 +22,17 @@ export class CreateGmRequest extends RequestData {
 }
 
 export class CreateGmResponse extends ResponseData {
-  // eslint-disable-next-line unused-imports/no-unused-vars
+  readonly accountGm: Resources.AccountGm[];
+
+  public constructor(accountGm: Resources.AccountGm[]) {
+    super();
+    this.accountGm = accountGm;
+  }
+
   public static fromObject = (obj: Record<string, unknown>): CreateGmResponse => {
-    return new CreateGmResponse();
+    return new CreateGmResponse(
+      Resources.AccountGm.fromObject(obj.accountGm as Record<string, unknown>),
+    );
   };
 }
 

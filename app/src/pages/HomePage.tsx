@@ -103,9 +103,6 @@ export const HomePage = (): React.ReactElement => {
     return 'GM frens! Go rep your communities too at https://gm.tokenpage.xyz ⚡️';
   };
 
-  React.useEffect((): void => {
-  }, [toastManager]);
-
   React.useEffect((): (() => void) => {
     const sse = new EventSource(`${notdClient.baseUrl}/gm/v1/generate-gms`);
     sse.onmessage = (event: MessageEvent): void => {

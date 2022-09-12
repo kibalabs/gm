@@ -2,13 +2,14 @@ import React from 'react';
 
 import { KibaException, truncateMiddle } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, LayerContainer, LinkBase, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked, useWeb3 } from '../AccountContext';
 import { AccountGm, GmAccountRow, GmCollectionRow } from '../client/resources';
 import { AccountsTable } from '../components/AccountsTable';
 import { AccountView, getEnsName } from '../components/AccountView';
 import { CollectionsTable } from '../components/CollectionsTable';
+import { NavBar } from '../components/NavBar';
 import { useToastManager } from '../components/Toast';
 import { useGlobals } from '../globalsContext';
 
@@ -102,7 +103,12 @@ export const HomePage = (): React.ReactElement => {
     return 'GM frens! Go rep your communities too at https://gm.tokenpage.xyz ⚡️';
   };
 
+  React.useEffect((): void => {
+    console.log('toastManager');
+  }, [toastManager]);
+
   React.useEffect((): (() => void) => {
+    console.log('here');
     const sse = new EventSource(`${notdClient.baseUrl}/gm/v1/generate-gms`);
     sse.onmessage = (event: MessageEvent): void => {
       const eventData = JSON.parse(event.data);
@@ -139,15 +145,8 @@ export const HomePage = (): React.ReactElement => {
   return (
     <React.Fragment>
       <ContainingView>
-        <Stack direction={Direction.Vertical} isFullHeight={true} childAlignment={Alignment.Center} contentAlignment={Alignment.Center} shouldAddGutters={true} paddingTop={PaddingSize.Wide2} paddingBottom={PaddingSize.Wide} paddingHorizontal={PaddingSize.Wide}>
-          <Box height='4em'>
-            <LayerContainer>
-              <Text alignment={TextAlignment.Center} variant='header'>GM ☀️</Text>
-              <LayerContainer.Layer isFullWidth={false} isFullHeight={false} alignmentHorizontal={Alignment.Start} alignmentVertical={Alignment.Center}>
-                <Button text='About' target='/about' />
-              </LayerContainer.Layer>
-            </LayerContainer>
-          </Box>
+        <Stack direction={Direction.Vertical} isFullHeight={true} childAlignment={Alignment.Center} contentAlignment={Alignment.Center} shouldAddGutters={true} paddingTop={PaddingSize.Wide} paddingBottom={PaddingSize.Wide} paddingHorizontal={PaddingSize.Wide}>
+          <NavBar />
           <Stack.Item growthFactor={1} shrinkFactor={1} shouldShrinkBelowContentSize={true}>
             <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
               <Stack.Item growthFactor={1} shrinkFactor={1}>
@@ -158,7 +157,7 @@ export const HomePage = (): React.ReactElement => {
                     <Text variant='error'>Failed to load</Text>
                   ) : (
                     <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
-                      <CollectionsTable rows={collectionRows} />
+                      <CollectionsTable rows={collectionRows} ownedAddresses={[]} />
                     </Stack>
                   )}
                 </Box>
@@ -171,7 +170,7 @@ export const HomePage = (): React.ReactElement => {
                     <Text variant='error'>Failed to load</Text>
                   ) : (
                     <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
-                      <AccountsTable rows={accountRows} />
+                      <AccountsTable rows={accountRows} userAddress={account?.address} />
                     </Stack>
                   )}
                 </Box>
@@ -189,7 +188,7 @@ export const HomePage = (): React.ReactElement => {
                     <Text alignment={TextAlignment.Center} variant='large-bold'>GM fren!!</Text>
                     <Text alignment={TextAlignment.Center}>{`Your current streak is ${accountGm.streakLength} 🚀🚀 Come back tomorrow to keep it going!`}</Text>
                     <Text alignment={TextAlignment.Center}>{`You got ${accountGm.collectionCount} communities higher up the board. Get your fellow collectors GM-ing here to get them to the top 👆`}</Text>
-                    <Button variant='secondary' text='Share on Twitter' target={`https://twitter.com/intent/tweet?text=${encodeURIComponent(getTwitterShareText())}`} />
+                    <Button variant='tertiary' text='Share on Twitter' target={`https://twitter.com/intent/tweet?text=${encodeURIComponent(getTwitterShareText())}`} />
                   </Stack>
                 </Box>
               ) : (
@@ -203,17 +202,17 @@ export const HomePage = (): React.ReactElement => {
             </React.Fragment>
           )}
         </Stack>
-        {isSubpageShowing && (
-          <Dialog
-            isOpen={true}
-            onCloseClicked={onCloseSubpageClicked}
-            maxWidth='750px'
-            maxHeight='90%'
-          >
-            <SubRouterOutlet />
-          </Dialog>
-        )}
       </ContainingView>
+      {isSubpageShowing && (
+        <Dialog
+          isOpen={true}
+          onCloseClicked={onCloseSubpageClicked}
+          maxWidth='750px'
+          maxHeight='90%'
+        >
+          <SubRouterOutlet />
+        </Dialog>
+      )}
     </React.Fragment>
   );
 };

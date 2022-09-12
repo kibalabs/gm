@@ -42,5 +42,9 @@ export const useToastManager = (): IKibaToastManager => {
     toast.dismiss(toastId);
   }, []);
 
-  return { showToast, showCustomToast, dismissToast };
+  const toastManager = React.useMemo((): IKibaToastManager => {
+    return { showToast, showCustomToast, dismissToast };
+  }, [showToast, showCustomToast, dismissToast]);
+
+  return toastManager;
 };

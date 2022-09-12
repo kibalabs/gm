@@ -104,11 +104,9 @@ export const HomePage = (): React.ReactElement => {
   };
 
   React.useEffect((): void => {
-    console.log('toastManager');
   }, [toastManager]);
 
   React.useEffect((): (() => void) => {
-    console.log('here');
     const sse = new EventSource(`${notdClient.baseUrl}/gm/v1/generate-gms`);
     sse.onmessage = (event: MessageEvent): void => {
       const eventData = JSON.parse(event.data);

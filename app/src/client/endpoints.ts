@@ -22,9 +22,9 @@ export class CreateGmRequest extends RequestData {
 }
 
 export class CreateGmResponse extends ResponseData {
-  readonly accountGm: Resources.AccountGm[];
+  readonly accountGm: Resources.AccountGm;
 
-  public constructor(accountGm: Resources.AccountGm[]) {
+  public constructor(accountGm: Resources.AccountGm) {
     super();
     this.accountGm = accountGm;
   }

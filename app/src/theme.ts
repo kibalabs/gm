@@ -248,6 +248,15 @@ export const buildAppTheme = (): ITheme => {
           },
         },
       },
+      highlighted: {
+        normal: {
+          default: {
+            background: {
+              'background-color': transparentize(0.95, brandPrimary),
+            },
+          },
+        },
+      },
       header: {
         normal: {
           default: {

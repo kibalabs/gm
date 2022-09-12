@@ -32,19 +32,21 @@ const CollectionCellContent = (props: ICollectionCellContentProps): React.ReactE
   );
 };
 
-interface ICollectionsTableProps {
-  rows: GmCollectionRow[];
-}
 
 export const DEFAULT_SORT = 'STATTODAY_DESC';
 
 const DUMMY_ROW: GmCollectionRow = { collection: new Collection('0x1', 'collection1', null, null, null, null, null, null, null, null), todayCount: 2, weekCount: 123, monthCount: 789 };
 
+interface ICollectionsTableProps {
+  rows: GmCollectionRow[];
+  ownedAddresses: string[];
+}
 
 export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElement => {
   const tableTheme = useBuiltTheme<ITableTheme>('tables');
   const tableHeaderCellTheme = useBuiltTheme<ITableCellTheme>('tableCells', 'header');
   const tableCellTheme = useBuiltTheme<ITableCellTheme>('tableCells');
+  const highlightedTableCellTheme = useBuiltTheme<ITableCellTheme>('tableCells', 'highlighted');
   // const [queryOrder, setOrder] = useUrlQueryState('order', undefined, DEFAULT_SORT);
   // const [queryPage, setPage] = useIntegerUrlQueryState('page', undefined);
   // const [pageCount, setPageCount] = React.useState<number>(0);
@@ -82,19 +84,19 @@ export const CollectionsTable = (props: ICollectionsTableProps): React.ReactElem
       <StyledTableBody>
         {(props.rows || Array(pageSize).fill(DUMMY_ROW)).map((row: GmCollectionRow, index: number): React.ReactElement => (
           <StyledTableBodyRow key={row.collection.address}>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em', paddingRight: '0' }}>
+            <StyledTableBodyRowItem $theme={props.ownedAddresses.includes(row.collection.address) ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em', paddingRight: '0' }}>
               <Text variant='note'>{(pageSize * page) + index + 1}</Text>
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ width: '99%', paddingLeft: '0' }}>
+            <StyledTableBodyRowItem $theme={props.ownedAddresses.includes(row.collection.address) ? highlightedTableCellTheme : tableCellTheme} style={{ width: '99%', paddingLeft: '0' }}>
               <CollectionCellContent collection={row.collection} />
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={props.ownedAddresses.includes(row.collection.address) ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {row.todayCount}
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={props.ownedAddresses.includes(row.collection.address) ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {row.weekCount}
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={props.ownedAddresses.includes(row.collection.address) ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {row.monthCount}
             </StyledTableBodyRowItem>
           </StyledTableBodyRow>

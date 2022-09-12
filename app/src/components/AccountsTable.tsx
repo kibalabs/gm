@@ -24,19 +24,22 @@ const UserCellContent = (props: IUserCellContentProps): React.ReactElement => {
   );
 };
 
-interface IAccountsTableProps {
-  rows: GmAccountRow[];
-}
 
 export const DEFAULT_SORT = 'STATSTERAK_DESC';
 
 const DUMMY_ROW: GmAccountRow = { address: '0x1', lastDate: new Date(), streakLength: 0, weekCount: 0, monthCount: 0 };
 
 
+interface IAccountsTableProps {
+  rows: GmAccountRow[];
+  userAddress?: string | null;
+}
+
 export const AccountsTable = (props: IAccountsTableProps): React.ReactElement => {
   const tableTheme = useBuiltTheme<ITableTheme>('tables');
   const tableHeaderCellTheme = useBuiltTheme<ITableCellTheme>('tableCells', 'header');
   const tableCellTheme = useBuiltTheme<ITableCellTheme>('tableCells');
+  const highlightedTableCellTheme = useBuiltTheme<ITableCellTheme>('tableCells', 'highlighted');
   // const [queryOrder, setOrder] = useUrlQueryState('order', undefined, DEFAULT_SORT);
   // const [queryPage, setPage] = useIntegerUrlQueryState('page', undefined);
   // const [pageCount, setPageCount] = React.useState<number>(0);
@@ -75,22 +78,22 @@ export const AccountsTable = (props: IAccountsTableProps): React.ReactElement =>
       <StyledTableBody>
         {(props.rows || Array(pageSize).fill(DUMMY_ROW)).map((row: GmAccountRow, index: number): React.ReactElement => (
           <StyledTableBodyRow key={row.address}>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em', paddingRight: '0' }}>
+            <StyledTableBodyRowItem $theme={row.address === props.userAddress ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em', paddingRight: '0' }}>
               <Text variant='note'>{(pageSize * page) + index + 1}</Text>
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ width: '99%', paddingLeft: '0' }}>
+            <StyledTableBodyRowItem $theme={row.address === props.userAddress ? highlightedTableCellTheme : tableCellTheme} style={{ width: '99%', paddingLeft: '0' }}>
               <UserCellContent address={row.address} />
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={row.address === props.userAddress ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {areDatesSameDay(row.lastDate, new Date()) ? '✅' : '◾️'}
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={row.address === props.userAddress ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {row.streakLength}
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={row.address === props.userAddress ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {row.weekCount}
             </StyledTableBodyRowItem>
-            <StyledTableBodyRowItem $theme={tableCellTheme} style={{ minWidth: '3em' }}>
+            <StyledTableBodyRowItem $theme={row.address === props.userAddress ? highlightedTableCellTheme : tableCellTheme} style={{ minWidth: '3em' }}>
               {row.monthCount}
             </StyledTableBodyRowItem>
           </StyledTableBodyRow>

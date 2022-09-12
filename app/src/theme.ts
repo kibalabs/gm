@@ -190,6 +190,27 @@ export const buildAppTheme = (): ITheme => {
         },
       },
     },
+    linkBases: {
+      default: {
+        normal: {
+          default: {
+            background: {
+              'background-color': 'transparent',
+            },
+          },
+          hover: {
+            background: {
+              'background-color': 'transparent',
+            },
+          },
+          press: {
+            background: {
+              'background-color': 'transparent',
+            },
+          },
+        },
+      },
+    },
     tables: {
       default: {
         background: mergeTheme<IBoxTheme>(baseTheme.boxes.default, baseTheme.boxes.transparent, {

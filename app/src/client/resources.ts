@@ -79,6 +79,31 @@ export class CollectionToken {
   };
 }
 
+
+export class AccountGm {
+  readonly address: string;
+  readonly date: Date;
+  readonly streakLength: number;
+  readonly collectionCount: number;
+
+  public constructor(address: string, date: Date, streakLength: number, collectionCount: number) {
+    this.address = address;
+    this.date = date;
+    this.streakLength = streakLength;
+    this.collectionCount = collectionCount;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): AccountGm => {
+    return new AccountGm(
+      String(obj.address),
+      dateFromString(obj.date as string),
+      Number(obj.streakLength),
+      Number(obj.collectionCount),
+    );
+  };
+}
+
+
 export class GmCollectionRow {
   readonly collection: Collection;
   readonly todayCount: number;

@@ -113,7 +113,7 @@ export const AccountControlProvider = (props: IAccountControlProviderProps): Rea
 
 ${account.address}
 
-Signature transactions do not affect your assets in any way.
+Signature signings do not affect your assets in any way.
 
 Date: ${dateToString(new Date())}
     `;

@@ -7,13 +7,14 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export const KibaToastContainer = (): React.ReactElement => {
   return (
-    <Toaster position='top-right' />
+    <Toaster position='top-right' reverseOrder={true} />
   );
 };
 
 export class IKibaToastManager {
   showToast: (variant: string, text: string, toastId?: string, shouldNotAutoClose?: boolean, autoCloseSeconds?: number) => string;
   showCustomToast: (component: React.ReactElement, toastId?: string, shouldNotAutoClose?: boolean, autoCloseSeconds?: number) => string;
+  dismissToast: (toastId: string) => void;
 }
 
 // NOTE(krishan711): this is at the stage where I need to create the toast component.
@@ -24,18 +25,22 @@ export const useToastManager = (): IKibaToastManager => {
   const showToast = React.useCallback((variant: string, text: string, toastId?: string, shouldNotAutoClose?: boolean, autoCloseSeconds?: number): string => {
     const actualToastId = toastId || generateUUID();
     const shouldAutoClose = !shouldNotAutoClose;
-    const actualAutoCloseSeconds = autoCloseSeconds ?? 5000;
-    toast.custom(<Box variant='notification' isFullWidth={false}>{text}</Box>, { id: actualToastId, className: variant, duration: shouldAutoClose ? actualAutoCloseSeconds : Infinity, style: { padding: '0' } });
+    const autoCloseMillis = autoCloseSeconds ? (autoCloseSeconds * 1000) : 5000;
+    toast.custom(<Box variant='notification' isFullWidth={false}>{text}</Box>, { id: actualToastId, className: variant, duration: shouldAutoClose ? autoCloseMillis : Infinity, style: { padding: '0' } });
     return actualToastId;
   }, []);
 
   const showCustomToast = React.useCallback((component: React.ReactElement, toastId?: string, shouldNotAutoClose?: boolean, autoCloseSeconds?: number): string => {
     const actualToastId = toastId || generateUUID();
     const shouldAutoClose = !shouldNotAutoClose;
-    const actualAutoCloseSeconds = autoCloseSeconds ?? 5000;
-    toast.custom(component, { id: actualToastId, duration: shouldAutoClose ? actualAutoCloseSeconds : Infinity, style: { padding: '0' } });
+    const autoCloseMillis = autoCloseSeconds ? (autoCloseSeconds * 1000) : 5000;
+    toast.custom(component, { id: actualToastId, duration: shouldAutoClose ? autoCloseMillis : Infinity, style: { padding: '0' } });
     return actualToastId;
   }, []);
 
-  return { showToast, showCustomToast };
+  const dismissToast = React.useCallback((toastId: string): void => {
+    toast.dismiss(toastId);
+  }, []);
+
+  return { showToast, showCustomToast, dismissToast };
 };

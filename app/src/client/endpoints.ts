@@ -81,3 +81,21 @@ export class ListGmCollectionRowsResponse extends ResponseData {
     );
   };
 }
+
+export class GetLatestGmForAccountRequest extends RequestData {
+}
+
+export class GetLatestGmForAccountResponse extends ResponseData {
+  readonly latestAccountGm: Resources.LatestAccountGm;
+
+  public constructor(latestAccountGm: Resources.LatestAccountGm) {
+    super();
+    this.latestAccountGm = latestAccountGm;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): GetLatestGmForAccountResponse => {
+    return new GetLatestGmForAccountResponse(
+      Resources.LatestAccountGm.fromObject(obj.latestAccountGm as Record<string, unknown>),
+    );
+  };
+}

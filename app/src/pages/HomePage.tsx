@@ -5,7 +5,7 @@ import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react
 import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked, useWeb3 } from '../AccountContext';
-import { AccountGm, GmAccountRow, GmCollectionRow } from '../client/resources';
+import { AccountCollectionGm, AccountGm, GmAccountRow, GmCollectionRow, LatestAccountGm } from '../client/resources';
 import { AccountsTable } from '../components/AccountsTable';
 import { AccountView, getEnsName } from '../components/AccountView';
 import { CollectionsTable } from '../components/CollectionsTable';
@@ -30,11 +30,19 @@ export const HomePage = (): React.ReactElement => {
   const location = useLocation();
   const [isGming, setIsGming] = React.useState<boolean>(false);
   const [accountGm, setAccountGm] = React.useState<AccountGm | null>(null);
+  const [latestAccountGm, setLatestAccountGm] = React.useState<LatestAccountGm | null>(null);
   const [accountRows, setAccountRows] = React.useState<GmAccountRow[] | undefined | null>(undefined);
   const [collectionRows, setCollectionRows] = React.useState<GmCollectionRow[] | undefined | null>(undefined);
 
   const isAboutSubpageShowing = location.pathname.includes('/about');
   const isSubpageShowing = isAboutSubpageShowing;
+
+  const ownedCollectionAddresses = React.useMemo((): string[] => {
+    if (!latestAccountGm) {
+      return [];
+    }
+    return latestAccountGm.accountCollectionGms.map((accountCollectionGm: AccountCollectionGm): string => accountCollectionGm.registryAddress);
+  }, [latestAccountGm]);
 
   const onConnectWalletClicked = async (): Promise<void> => {
     await onLinkAccountsClicked();
@@ -63,6 +71,22 @@ export const HomePage = (): React.ReactElement => {
     loadData();
   }, [loadData]);
 
+  const loadAccountData = React.useCallback((): void => {
+    if (!account) {
+      return;
+    }
+    notdClient.getLatestGmForAccount(account.address).then((retrievedLatestAccountGm: LatestAccountGm): void => {
+      setLatestAccountGm(retrievedLatestAccountGm);
+    }).catch((error: unknown): void => {
+      console.error(error);
+      setLatestAccountGm(null);
+    });
+  }, [notdClient, account]);
+
+  React.useEffect((): void => {
+    loadAccountData();
+  }, [loadAccountData]);
+
   const onLoginClicked = async (): Promise<void> => {
     let signature = loginSignature;
     if (!signature) {
@@ -79,6 +103,7 @@ export const HomePage = (): React.ReactElement => {
       setAccountGm(retrievedAccountGm);
       setIsGming(false);
       loadData();
+      loadAccountData();
     }).catch((error: KibaException): void => {
       console.error(error);
       setIsGming(false);
@@ -152,7 +177,7 @@ export const HomePage = (): React.ReactElement => {
                     <Text variant='error'>Failed to load</Text>
                   ) : (
                     <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
-                      <CollectionsTable rows={collectionRows} ownedAddresses={[]} />
+                      <CollectionsTable rows={collectionRows} ownedAddresses={ownedCollectionAddresses} />
                     </Stack>
                   )}
                 </Box>

@@ -38,4 +38,12 @@ export class NotdClient extends ServiceClient {
     const response = await this.makeRequest(method, path, request, Endpoints.ListGmCollectionRowsResponse);
     return response.collectionRows;
   };
+
+  public getLatestGmForAccount = async (address: string): Promise<Resources.LatestAccountGm> => {
+    const method = RestMethod.GET;
+    const path = `gm/v1/accounts/${address}/latest-gm`;
+    const request = new Endpoints.GetLatestGmForAccountRequest();
+    const response = await this.makeRequest(method, path, request, Endpoints.GetLatestGmForAccountResponse);
+    return response.latestAccountGm;
+  };
 }

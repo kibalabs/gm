@@ -103,6 +103,26 @@ export class AccountGm {
   };
 }
 
+export class AccountCollectionGm {
+  readonly registryAddress: string;
+  readonly accountAddress: string;
+  readonly date: Date;
+
+  public constructor(registryAddress: string, accountAddress: string, date: Date) {
+    this.registryAddress = registryAddress;
+    this.date = date;
+    this.accountAddress = accountAddress;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): AccountCollectionGm => {
+    return new AccountCollectionGm(
+      String(obj.registryAddress),
+      String(obj.accountAddress),
+      dateFromString(obj.date as string),
+    );
+  };
+}
+
 
 export class GmCollectionRow {
   readonly collection: Collection;
@@ -149,6 +169,24 @@ export class GmAccountRow {
       Number(obj.weekCount),
       Number(obj.monthCount),
       Number(obj.streakLength),
+    );
+  };
+}
+
+
+export class LatestAccountGm {
+  readonly accountGm: AccountGm;
+  readonly accountCollectionGms: AccountCollectionGm[];
+
+  public constructor(accountGm: AccountGm, accountCollectionGms: AccountCollectionGm[]) {
+    this.accountGm = accountGm;
+    this.accountCollectionGms = accountCollectionGms;
+  }
+
+  public static fromObject = (obj: Record<string, unknown>): LatestAccountGm => {
+    return new LatestAccountGm(
+      AccountGm.fromObject(obj.accountGm as Record<string, unknown>),
+      (obj.accountCollectionGms as Record<string, unknown>[]).map((innerObj: Record<string, unknown>) => AccountCollectionGm.fromObject(innerObj)),
     );
   };
 }

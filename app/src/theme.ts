@@ -8,6 +8,7 @@ export const buildAppTheme = (): ITheme => {
     colors: {
       brandPrimary,
       brandSecondary: 'rgb(242, 156, 19)',
+      tabSelectedBackground: transparentize(0.8, brandPrimary),
       background: '#000000',
       text: '#ffffff',
     },
@@ -55,6 +56,9 @@ export const buildAppTheme = (): ITheme => {
     boxes: {
       card: {
         margin: '0',
+      },
+      unrounded: {
+        "border-radius": '0',
       },
       notification: mergeThemePartial(baseTheme.boxes.card, {
         padding: `${baseTheme.dimensions.padding} ${baseTheme.dimensions.paddingWide}`,
@@ -159,6 +163,15 @@ export const buildAppTheme = (): ITheme => {
             text: {
               'font-size': '1.2em',
               'text-shadow': `0px 0px 0.75em ${transparentize(0.25, brandPrimary)}`,
+            },
+          },
+        },
+      },
+      navBarSelected: {
+        normal: {
+          default: {
+            background: {
+              'background-color': '$colors.tabSelectedBackground',
             },
           },
         },

@@ -37,14 +37,12 @@ export const HomePage = (): React.ReactElement => {
   const isAboutSubpageShowing = location.pathname.includes('/about');
   const isSubpageShowing = isAboutSubpageShowing;
 
-  console.log('latestAccountGm', latestAccountGm);
   const ownedCollectionAddresses = React.useMemo((): string[] => {
     if (!latestAccountGm) {
       return [];
     }
     return latestAccountGm.accountCollectionGms.map((accountCollectionGm: AccountCollectionGm): string => accountCollectionGm.registryAddress);
   }, [latestAccountGm]);
-  console.log('ownedCollectionAddresses', ownedCollectionAddresses);
 
   const onConnectWalletClicked = async (): Promise<void> => {
     await onLinkAccountsClicked();

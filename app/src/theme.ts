@@ -58,7 +58,7 @@ export const buildAppTheme = (): ITheme => {
         margin: '0',
       },
       unrounded: {
-        "border-radius": '0',
+        'border-radius': '0',
       },
       notification: mergeThemePartial(baseTheme.boxes.card, {
         padding: `${baseTheme.dimensions.padding} ${baseTheme.dimensions.paddingWide}`,

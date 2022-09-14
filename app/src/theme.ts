@@ -42,6 +42,41 @@ export const buildAppTheme = (): ITheme => {
         'font-size': baseTheme.texts.default['font-size'],
       },
     },
+    tabBarItems: {
+      default: {
+        normal: {
+          default: {
+            background: {
+              'border-width': '0',
+              'border-radius': baseTheme.dimensions.borderRadius,
+            },
+            text: {
+
+            },
+          },
+        },
+        selected: {
+          default: {
+            background: {
+              'border-width': '0',
+              'background-color': '$colors.tabSelectedBackground',
+            },
+            text: {
+
+            },
+          },
+        },
+      },
+      narrow: {
+        normal: {
+          default: {
+            background: {
+              padding: `${baseTheme.dimensions.paddingNarrow2} ${baseTheme.dimensions.paddingWide}`,
+            },
+          },
+        },
+      },
+    },
     prettyTexts: {
       header3: {
         normal: {

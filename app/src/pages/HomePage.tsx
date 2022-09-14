@@ -131,9 +131,9 @@ export const HomePage = (): React.ReactElement => {
 
   const getTwitterShareText = (): string => {
     if (accountGm) {
-      return `GM frens! I just GM'd on behalf of ${accountGm.collectionCount} NFT communities and got them higher up the GM board 🚀 Go rep your communities too to show everyone who shows up everyday! tohttps://gm.tokenpage.xyz ⚡️`;
+      return `GM frens! I just GM'd on behalf of ${accountGm.collectionCount} NFT communities and got them higher up the GM board 🚀 Go rep your communities too to show everyone who shows up everyday! https://gm.tokenpage.xyz ⚡️`;
     }
-    return 'GM frens! Go rep your communities too at https://gm.tokenpage.xyz ⚡️';
+    return 'GM frens! Go rep your communities to show everyone who shows up everyday! https://gm.tokenpage.xyz ⚡️';
   };
 
   React.useEffect((): (() => void) => {

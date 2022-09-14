@@ -109,7 +109,7 @@ export const AccountControlProvider = (props: IAccountControlProviderProps): Rea
     if (!account) {
       return null;
     }
-    const message = `This one-time signature simply proves you're the owner of the wallet address:
+    const message = `This one-time signature simply proves you're the owner of the wallet address for use with Token Page:
 
 ${account.address}
 

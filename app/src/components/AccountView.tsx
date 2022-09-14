@@ -89,8 +89,10 @@ export const AccountView = (props: AccountViewProps): React.ReactElement => {
       className={getClassName(props.className, AccountView.displayName)}
       key={props.address}
       direction={Direction.Horizontal}
+      isFullWidth={true}
+      isFullHeight={true}
       childAlignment={Alignment.Center}
-      contentAlignment={Alignment.Center}
+      contentAlignment={Alignment.Start}
       shouldAddGutters={true}
     >
       <AccountImageView address={props.address} imageSize={props.imageSize} />

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { KibaException, truncateMiddle } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, ResponsiveHidingView, ScreenSize, Spacing, Stack, TabBar, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked, useWeb3 } from '../AccountContext';
 import { AccountCollectionGm, AccountGm, GmAccountRow, GmCollectionRow, LatestAccountGm } from '../client/resources';
@@ -17,6 +17,9 @@ export type UpdateResult = {
   isSuccess: boolean;
   message: string;
 }
+
+const TAB_KEY_COLLECTIONS = 'TAB_KEY_COLLECTIONS';
+const TAB_KEY_OWNERS = 'TAB_KEY_OWNERS';
 
 export const HomePage = (): React.ReactElement => {
   const { notdClient } = useGlobals();
@@ -33,6 +36,7 @@ export const HomePage = (): React.ReactElement => {
   const [latestAccountGm, setLatestAccountGm] = React.useState<LatestAccountGm | null>(null);
   const [accountRows, setAccountRows] = React.useState<GmAccountRow[] | undefined | null>(undefined);
   const [collectionRows, setCollectionRows] = React.useState<GmCollectionRow[] | undefined | null>(undefined);
+  const [selectedTabKey, setSelectedTabKey] = React.useState<string>(TAB_KEY_COLLECTIONS);
 
   const isAboutSubpageShowing = location.pathname.includes('/about');
   const isSubpageShowing = isAboutSubpageShowing;
@@ -50,6 +54,10 @@ export const HomePage = (): React.ReactElement => {
 
   const onCloseSubpageClicked = (): void => {
     navigator.navigateTo('/');
+  };
+
+  const onTabKeySelected = (newSelectedTabKey: string): void => {
+    setSelectedTabKey(newSelectedTabKey);
   };
 
   const loadData = React.useCallback((): void => {
@@ -167,9 +175,45 @@ export const HomePage = (): React.ReactElement => {
       <ContainingView>
         <Stack direction={Direction.Vertical} isFullHeight={true} childAlignment={Alignment.Center} contentAlignment={Alignment.Center} shouldAddGutters={true} paddingTop={PaddingSize.Wide} paddingBottom={PaddingSize.Wide} paddingHorizontal={PaddingSize.Wide}>
           <NavBar />
+          <ResponsiveHidingView hiddenAbove={ScreenSize.Medium}>
+            <TabBar contentAlignment={Alignment.Start} isFullWidth={false} onTabKeySelected={onTabKeySelected} selectedTabKey={selectedTabKey}>
+              <TabBar.Item variant='narrow' tabKey={TAB_KEY_COLLECTIONS} text='Collections' />
+              <TabBar.Item variant='narrow' tabKey={TAB_KEY_OWNERS} text='Collectooors' />
+            </TabBar>
+          </ResponsiveHidingView>
           <Stack.Item growthFactor={1} shrinkFactor={1} shouldShrinkBelowContentSize={true}>
-            <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
-              <Stack.Item growthFactor={1} shrinkFactor={1}>
+            <ResponsiveHidingView hiddenBelow={ScreenSize.Medium}>
+              <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
+                <Stack.Item growthFactor={1} shrinkFactor={1}>
+                  <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
+                    {collectionRows === undefined ? (
+                      <LoadingSpinner />
+                    ) : collectionRows === null ? (
+                      <Text variant='error'>Failed to load</Text>
+                    ) : (
+                      <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
+                        <CollectionsTable rows={collectionRows} ownedAddresses={ownedCollectionAddresses} />
+                      </Stack>
+                    )}
+                  </Box>
+                </Stack.Item>
+                <Stack.Item growthFactor={1} shrinkFactor={1}>
+                  <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
+                    {accountRows === undefined ? (
+                      <LoadingSpinner />
+                    ) : accountRows === null ? (
+                      <Text variant='error'>Failed to load</Text>
+                    ) : (
+                      <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
+                        <AccountsTable rows={accountRows} userAddress={account?.address} />
+                      </Stack>
+                    )}
+                  </Box>
+                </Stack.Item>
+              </Stack>
+            </ResponsiveHidingView>
+            <ResponsiveHidingView hiddenAbove={ScreenSize.Medium}>
+              {selectedTabKey === TAB_KEY_COLLECTIONS ? (
                 <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
                   {collectionRows === undefined ? (
                     <LoadingSpinner />
@@ -181,8 +225,7 @@ export const HomePage = (): React.ReactElement => {
                     </Stack>
                   )}
                 </Box>
-              </Stack.Item>
-              <Stack.Item growthFactor={1} shrinkFactor={1}>
+              ) : (
                 <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
                   {accountRows === undefined ? (
                     <LoadingSpinner />
@@ -194,8 +237,8 @@ export const HomePage = (): React.ReactElement => {
                     </Stack>
                   )}
                 </Box>
-              </Stack.Item>
-            </Stack>
+              )}
+            </ResponsiveHidingView>
           </Stack.Item>
           <Spacing variant={PaddingSize.Narrow4} />
           {account ? (

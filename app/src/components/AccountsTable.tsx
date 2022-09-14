@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alignment, Direction, Stack, Text, useBuiltTheme } from '@kibalabs/ui-react';
+import { Alignment, Text, useBuiltTheme } from '@kibalabs/ui-react';
 
 import { GmAccountRow } from '../client/resources';
 import { AccountViewLink } from './AccountView';
@@ -18,9 +18,7 @@ interface IUserCellContentProps {
 
 const UserCellContent = (props: IUserCellContentProps): React.ReactElement => {
   return (
-    <Stack direction={Direction.Horizontal} isFullWidth={false} contentAlignment={Alignment.Start} childAlignment={Alignment.Center} shouldAddGutters={true}>
-      <AccountViewLink address={props.address} target={`/accounts/${props.address}`} />
-    </Stack>
+    <AccountViewLink address={props.address} target={`/accounts/${props.address}`} />
   );
 };
 

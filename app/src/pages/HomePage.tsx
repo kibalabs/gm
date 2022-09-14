@@ -2,7 +2,7 @@ import React from 'react';
 
 import { KibaException, truncateMiddle } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, ResponsiveHidingView, ScreenSize, Spacing, Stack, TabBar, Text, TextAlignment, useResponsiveScreenSize } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, ResponsiveHidingView, ScreenSize, Spacing, Stack, TabBar, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked, useWeb3 } from '../AccountContext';
 import { AccountCollectionGm, AccountGm, GmAccountRow, GmCollectionRow, LatestAccountGm } from '../client/resources';
@@ -24,7 +24,6 @@ const TAB_KEY_OWNERS = 'TAB_KEY_OWNERS';
 export const HomePage = (): React.ReactElement => {
   const { notdClient } = useGlobals();
   const web3 = useWeb3();
-  const screenSize = useResponsiveScreenSize();
   const toastManager = useToastManager();
   const account = useAccount();
   const loginSignature = useLoginSignature();
@@ -183,8 +182,38 @@ export const HomePage = (): React.ReactElement => {
             </TabBar>
           </ResponsiveHidingView>
           <Stack.Item growthFactor={1} shrinkFactor={1} shouldShrinkBelowContentSize={true}>
-            <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
-              <Stack.Item growthFactor={1} shrinkFactor={1} isHidden={(screenSize === ScreenSize.Base || screenSize === ScreenSize.Small) && selectedTabKey !== TAB_KEY_COLLECTIONS}>
+            <ResponsiveHidingView hiddenBelow={ScreenSize.Medium}>
+              <Stack direction={Direction.Horizontal} shouldAddGutters={true} isFullWidth={true}>
+                <Stack.Item growthFactor={1} shrinkFactor={1}>
+                  <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
+                    {collectionRows === undefined ? (
+                      <LoadingSpinner />
+                    ) : collectionRows === null ? (
+                      <Text variant='error'>Failed to load</Text>
+                    ) : (
+                      <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
+                        <CollectionsTable rows={collectionRows} ownedAddresses={ownedCollectionAddresses} />
+                      </Stack>
+                    )}
+                  </Box>
+                </Stack.Item>
+                <Stack.Item growthFactor={1} shrinkFactor={1}>
+                  <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
+                    {accountRows === undefined ? (
+                      <LoadingSpinner />
+                    ) : accountRows === null ? (
+                      <Text variant='error'>Failed to load</Text>
+                    ) : (
+                      <Stack direction={Direction.Vertical} contentAlignment={Alignment.Start}>
+                        <AccountsTable rows={accountRows} userAddress={account?.address} />
+                      </Stack>
+                    )}
+                  </Box>
+                </Stack.Item>
+              </Stack>
+            </ResponsiveHidingView>
+            <ResponsiveHidingView hiddenAbove={ScreenSize.Medium}>
+              {selectedTabKey === TAB_KEY_COLLECTIONS ? (
                 <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
                   {collectionRows === undefined ? (
                     <LoadingSpinner />
@@ -196,8 +225,7 @@ export const HomePage = (): React.ReactElement => {
                     </Stack>
                   )}
                 </Box>
-              </Stack.Item>
-              <Stack.Item growthFactor={1} shrinkFactor={1} isHidden={(screenSize === ScreenSize.Base || screenSize === ScreenSize.Small) && selectedTabKey !== TAB_KEY_OWNERS}>
+              ) : (
                 <Box variant='tableBox' isFullHeight={true} shouldClipContent={true} isScrollableVertically={true}>
                   {accountRows === undefined ? (
                     <LoadingSpinner />
@@ -209,8 +237,8 @@ export const HomePage = (): React.ReactElement => {
                     </Stack>
                   )}
                 </Box>
-              </Stack.Item>
-            </Stack>
+              )}
+            </ResponsiveHidingView>
           </Stack.Item>
           <Spacing variant={PaddingSize.Narrow4} />
           {account ? (

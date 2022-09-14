@@ -22,10 +22,11 @@ interface ICollectionCellContentProps {
 }
 
 const CollectionCellContent = (props: ICollectionCellContentProps): React.ReactElement => {
+  const imageUrl = (props.collection.imageUrl || '').replace('ipfs://', 'https://pablo-images.kibalabs.com/v1/ipfs/');
   return (
     <Stack key={props.collection.address} direction={Direction.Horizontal} isFullWidth={false} isFullHeight={true} contentAlignment={Alignment.Start} childAlignment={Alignment.Center} shouldAddGutters={true}>
       <Box variant='rounded' shouldClipContent={true} height={'1.5em'} width={'1.5em'}>
-        <Image isLazyLoadable={true} source={props.collection.imageUrl || ''} alternativeText='.' />
+        <Image isLazyLoadable={true} source={imageUrl} alternativeText='.' />
       </Box>
       <Text>{props.collection.name}</Text>
     </Stack>

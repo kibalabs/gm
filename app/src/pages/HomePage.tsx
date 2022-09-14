@@ -2,7 +2,7 @@ import React from 'react';
 
 import { KibaException, truncateMiddle } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, LinkBase, LoadingSpinner, PaddingSize, ResponsiveHidingView, ScreenSize, Spacing, Stack, TabBar, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, KibaIcon, LinkBase, LoadingSpinner, PaddingSize, ResponsiveHidingView, ScreenSize, Spacing, Stack, TabBar, Text, TextAlignment } from '@kibalabs/ui-react';
 
 import { useAccount, useLoginSignature, useOnLinkAccountsClicked, useOnLoginClicked, useWeb3 } from '../AccountContext';
 import { AccountCollectionGm, AccountGm, GmAccountRow, GmCollectionRow, LatestAccountGm } from '../client/resources';
@@ -131,7 +131,7 @@ export const HomePage = (): React.ReactElement => {
 
   const getTwitterShareText = (): string => {
     if (accountGm) {
-      return `GM frens! I just GM'd on behalf of ${accountGm.collectionCount} communities and got them higher up the GM board 🚀 Go rep your communities too at https://gm.tokenpage.xyz ⚡️`;
+      return `GM frens! I just GM'd on behalf of ${accountGm.collectionCount} NFT communities and got them higher up the GM board 🚀 Go rep your communities too to show everyone who shows up everyday! tohttps://gm.tokenpage.xyz ⚡️`;
     }
     return 'GM frens! Go rep your communities too at https://gm.tokenpage.xyz ⚡️';
   };
@@ -251,7 +251,7 @@ export const HomePage = (): React.ReactElement => {
                     <Text alignment={TextAlignment.Center} variant='large-bold'>GM fren!!</Text>
                     <Text alignment={TextAlignment.Center}>{`Your current streak is ${accountGm.streakLength} 🚀🚀 Come back tomorrow to keep it going!`}</Text>
                     <Text alignment={TextAlignment.Center}>{`You got ${accountGm.collectionCount} communities higher up the board. Get your fellow collectors GM-ing here to get them to the top 👆`}</Text>
-                    <Button variant='tertiary' text='Share on Twitter' target={`https://twitter.com/intent/tweet?text=${encodeURIComponent(getTwitterShareText())}`} />
+                    <Button variant='tertiary' text='Share on Twitter' target={`https://twitter.com/intent/tweet?text=${encodeURIComponent(getTwitterShareText())}`} iconLeft={<KibaIcon iconId='ion-logo-twitter' />} isTextFullWidth={false} contentAlignment={Alignment.Center} />
                   </Stack>
                 </Box>
               ) : (

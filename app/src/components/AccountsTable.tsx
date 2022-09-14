@@ -3,7 +3,7 @@ import React from 'react';
 import { Alignment, Text, useBuiltTheme } from '@kibalabs/ui-react';
 
 import { GmAccountRow } from '../client/resources';
-import { AccountViewLink } from './AccountView';
+import { AccountView } from './AccountView';
 import { HeaderCell, ITableCellTheme, ITableTheme, StyledTable, StyledTableBody, StyledTableBodyRow, StyledTableBodyRowItem, StyledTableHead, StyledTableHeadRow } from './Table';
 
 const areDatesSameDay = (date1: Date, date2: Date): boolean => {
@@ -18,7 +18,8 @@ interface IUserCellContentProps {
 
 const UserCellContent = (props: IUserCellContentProps): React.ReactElement => {
   return (
-    <AccountViewLink address={props.address} target={`/accounts/${props.address}`} />
+    // <AccountViewLink address={props.address} target={`/accounts/${props.address}` />
+    <AccountView address={props.address} />
   );
 };
 

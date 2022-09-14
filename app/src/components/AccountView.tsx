@@ -89,7 +89,7 @@ export const AccountView = (props: AccountViewProps): React.ReactElement => {
       className={getClassName(props.className, AccountView.displayName)}
       key={props.address}
       direction={Direction.Horizontal}
-      isFullWidth={true}
+      isFullWidth={false}
       isFullHeight={true}
       childAlignment={Alignment.Center}
       contentAlignment={Alignment.Start}
@@ -108,7 +108,7 @@ export interface AccountViewLinkProps extends AccountViewProps {
 
 export const AccountViewLink = (props: AccountViewLinkProps): React.ReactElement => {
   return (
-    <LinkBase target={props.target} key={props.address}>
+    <LinkBase target={props.target} key={props.address} isFullWidth={false}>
       <AccountView {...props} className={getClassName(props.className, AccountViewLink.displayName)} />
     </LinkBase>
   );

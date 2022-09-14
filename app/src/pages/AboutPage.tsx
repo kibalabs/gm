@@ -7,7 +7,7 @@ const CONTENT = `
 
 At [Token Page](https://www.tokenpage.xyz), we absolutely love when people say GM - it really makes our day! We realized over the last year that the communities that GM together stay together, and we found ourselves having more fun in these communities too.
 
-So we built GM. It's super simple, just visit the page, connect your wallet and GM.
+So we got together with [@confuseddegen](https://twitter.com/confuseddegen) and built GM. It's super simple, just visit the page, connect your wallet and GM.
 
 *But, why?*
 

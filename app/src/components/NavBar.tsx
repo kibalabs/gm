@@ -61,7 +61,7 @@ export const NavBar = (): React.ReactElement => {
       <HidingView isHidden={!isMenuOpen}>
         <ResponsiveHidingView hiddenAbove={ScreenSize.Medium}>
           <Box variant='unrounded-overlay'>
-            <Stack direction={Direction.Vertical} isFullWidth={true} childAlignment={Alignment.Center} shouldAddGutters={true} paddingStart={PaddingSize.Wide} paddingEnd={PaddingSize.Wide}>
+            <Stack direction={Direction.Vertical} isFullWidth={true} childAlignment={Alignment.Center} contentAlignment={Alignment.Center} shouldAddGutters={true} paddingStart={PaddingSize.Wide} paddingEnd={PaddingSize.Wide}>
               <Button text='Home' variant={getVariant(location.pathname.endsWith('/') ? 'navBarSelected' : null)} onClicked={(): void => onTabKeySelected(TAB_KEY_HOME)} />
               <Button text='About' variant={getVariant(location.pathname.endsWith('/about') ? 'navBarSelected' : null)} onClicked={(): void => onTabKeySelected(TAB_KEY_ABOUT)} />
               {account && (

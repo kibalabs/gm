@@ -18,7 +18,7 @@ export const buildAppTheme = (): ITheme => {
     backgroundHighlight = '#fff6c4';
     text = '#555555';
     buttonPrimaryTextShadow = transparentize(0.9, brandPrimary);
-  };
+  }
 
   const theme = buildTheme({
     colors: {
@@ -134,7 +134,7 @@ export const buildAppTheme = (): ITheme => {
         'border-color': 'rgba(255, 255, 255, 0.2)',
       },
       footer: {
-        "background-color": '$colors.background',
+        'background-color': '$colors.background',
       },
     },
     pills: {

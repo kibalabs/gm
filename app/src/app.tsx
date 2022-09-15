@@ -14,6 +14,8 @@ import { GlobalsProvider, IGlobals } from './globalsContext';
 import { AboutPage } from './pages/AboutPage';
 import { HomePage } from './pages/HomePage';
 import { buildAppTheme } from './theme';
+import './app.css';
+
 
 declare global {
   export interface Window {
@@ -54,7 +56,7 @@ export const App = (props: IAppProps): React.ReactElement => {
   ];
 
   return (
-    <KibaApp theme={theme} background={{ linearGradient: '#181500,#000000' }} setHead={props.setHead} isFullPageApp={true}>
+    <KibaApp theme={theme} setHead={props.setHead} isFullPageApp={true}>
       <Head headId='app'>
         <title>GM ☀️</title>
       </Head>

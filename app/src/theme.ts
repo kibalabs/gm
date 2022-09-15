@@ -1,16 +1,34 @@
+import { getIsRunningOnBrowser } from '@kibalabs/core-react';
 import { buildTheme, IBoxTheme, ITextTheme, ITheme, mergeTheme, mergeThemePartial } from '@kibalabs/ui-react';
 import { transparentize } from 'polished';
 
 export const buildAppTheme = (): ITheme => {
   const baseTheme = buildTheme();
-  const brandPrimary = 'rgb(255, 240, 171)';
+  let brandPrimary = '#fff0ab';
+  let brandSecondary = '#f29c13';
+  let background = '#000000';
+  let backgroundHighlight = '#231e00';
+  let text = '#ffffff';
+  let buttonPrimaryTextShadow = transparentize(0.25, brandPrimary);
+
+  if (getIsRunningOnBrowser() && window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    brandPrimary = '#927700';
+    brandSecondary = '#593802';
+    background = '#ffffff';
+    backgroundHighlight = '#fff6c4';
+    text = '#555555';
+    buttonPrimaryTextShadow = transparentize(0.9, brandPrimary);
+  };
+
   const theme = buildTheme({
     colors: {
       brandPrimary,
-      brandSecondary: 'rgb(242, 156, 19)',
+      brandSecondary,
       tabSelectedBackground: transparentize(0.8, brandPrimary),
-      background: '#000000',
-      text: '#ffffff',
+      background,
+      backgroundHighlight,
+      text,
+      buttonPrimaryTextShadow,
     },
     fonts: {
       main: {
@@ -110,18 +128,13 @@ export const buildAppTheme = (): ITheme => {
         margin: '0',
         'box-shadow': '0px 0px 50px 20px rgba(255, 255, 255, 0.35) ',
       },
-      dottedBorder: {
-        margin: '0',
-        'border-style': 'dashed',
-        'border-width': '0.20em',
-        'border-color': '#FFFFFF',
-      },
       tableBox: {
         'border-style': 'solid',
         'border-width': '1px',
         'border-color': 'rgba(255, 255, 255, 0.2)',
       },
       footer: {
+        "background-color": '$colors.background',
       },
     },
     pills: {
@@ -170,11 +183,11 @@ export const buildAppTheme = (): ITheme => {
               'border-color': transparentize(0.9, brandPrimary),
               'border-width': '1px',
               'background-color': 'transparent',
-              'box-shadow': `0px 0px 10px 2px ${transparentize(0.8, brandPrimary)}`,
+              'box-shadow': `0px 0px 10px 2px ${transparentize(0.85, brandPrimary)}`,
             },
             text: {
               color: '$colors.brandPrimary',
-              'text-shadow': `0px 0px 0.75em ${transparentize(0.5, brandPrimary)}`,
+              'text-shadow': `0px 0px 0.75em ${buttonPrimaryTextShadow}`,
             },
           },
           hover: {
@@ -197,7 +210,6 @@ export const buildAppTheme = (): ITheme => {
             },
             text: {
               'font-size': '1.2em',
-              'text-shadow': `0px 0px 0.75em ${transparentize(0.25, brandPrimary)}`,
             },
           },
         },

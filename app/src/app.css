@@ -1,0 +1,18 @@
+#root {
+    background: linear-gradient(var(--color-background-highlight), var(--color-background));
+    background-size: 100% 150%;
+    animation: gradientBackground 20s ease infinite;
+    transition: all 500ms ease;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 50% 100%;
+    }
+    50% {
+        background-position: 50% 0%;
+    }
+    100% {
+        background-position: 50% 100%;
+    }
+}

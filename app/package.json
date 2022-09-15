@@ -30,7 +30,7 @@
     "web3.storage": "^4.0.0"
   },
   "devDependencies": {
-    "@kibalabs/build": "0.8.3-next.6",
+    "@kibalabs/build": "0.9.1-next.3",
     "@types/react": "17.0.43",
     "@types/react-dom": "17.0.14",
     "@types/styled-components": "5.1.24"

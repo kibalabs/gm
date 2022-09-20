@@ -244,7 +244,7 @@ export const HomePage = (): React.ReactElement => {
           {account ? (
             <React.Fragment>
               {!loginSignature ? (
-                <Button variant='primary-large' text='Log in to say GM ⚡️' onClicked={onLoginClicked} isLoading={isGming} />
+                <Button variant='primary-large' text='Log in to say GM 👋' onClicked={onLoginClicked} isLoading={isGming} />
               ) : accountGm ? (
                 <Box width='90%' maxWidth='550px'>
                   <Stack direction={Direction.Vertical} shouldAddGutters={true}>
@@ -255,7 +255,7 @@ export const HomePage = (): React.ReactElement => {
                   </Stack>
                 </Box>
               ) : (
-                <Button variant='primary-large' text='Say GM ⚡️' onClicked={onGmClicked} isLoading={isGming} />
+                <Button variant='primary-large' text='Say GM 👋' onClicked={onGmClicked} isLoading={isGming} />
               )}
             </React.Fragment>
           ) : account == null && (

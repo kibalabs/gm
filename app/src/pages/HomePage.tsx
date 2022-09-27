@@ -174,6 +174,12 @@ export const HomePage = (): React.ReactElement => {
     <React.Fragment>
       <ContainingView>
         <Stack direction={Direction.Vertical} isFullHeight={true} childAlignment={Alignment.Center} contentAlignment={Alignment.Center} shouldAddGutters={true} paddingTop={PaddingSize.Wide} paddingBottom={PaddingSize.Wide} paddingHorizontal={PaddingSize.Wide}>
+          <Box variant='topBar' isFullWidth={true} height={'2em'} shouldClipContent={true}>
+            <Stack direction={Direction.Vertical} shouldAddGutters={true}>
+              <Text alignment={TextAlignment.Center}>🎁 Prize today is 1 WL spot @privesociete</Text>
+            </Stack>
+          </Box>
+          <Spacing />
           <NavBar />
           <ResponsiveHidingView hiddenAbove={ScreenSize.Medium}>
             <TabBar contentAlignment={Alignment.Start} isFullWidth={false} onTabKeySelected={onTabKeySelected} selectedTabKey={selectedTabKey}>

@@ -25,7 +25,7 @@ More new prizes will be shared over the coming months! 👀
 
 You can see all the past daily winners [here](https://bit.ly/3dEGSaI).
 
-NOTE: Prizes have been put on hold! If you are interested on working on this project to bring the prizes back then tweet us [@tokenpagexyz](https://twitter.com/tokenpagexyz) 💬
+NOTE: Prizes have been put on hold! If you are interested on working on this project to help us bring the prizes back then tweet us [@tokenpagexyz](https://twitter.com/tokenpagexyz) 💬
 
 ### How do I win? 🤔
 

@@ -17,13 +17,15 @@ Well, if you GM you're signalling to the world that you're still here and are in
 
 ### The prizes 🎁
 
-Every day 1 GM-er from the collection with the most GMs will win 1 WL spot in an upcoming NFT project!
+Every day 1 GM-er from the collection with the most GMs will win an NFT!
 
 Keep your daily streak of GMs going for long enough and you will be in for a chance to win [REDACTED] too. 😉
 
 More new prizes will be shared over the coming months! 👀
 
 You can see all the past daily winners [here](https://bit.ly/3dEGSaI).
+
+NOTE: Prizes have been put on hold! If you are interested on working on this project to help us bring the prizes back then tweet us [@tokenpagexyz](https://twitter.com/tokenpagexyz) 💬
 
 ### How do I win? 🤔
 

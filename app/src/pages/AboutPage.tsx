@@ -3,17 +3,19 @@ import React from 'react';
 import { Alignment, Direction, Markdown, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
 
 const CONTENT = `
-**Communities that GM together, stay together**
+### Communities that GM together, stay together
 
-At [Token Page](https://www.tokenpage.xyz), we absolutely love when people say GM - it really makes our day! We realized over the last year that the communities that GM together stay together, and we found ourselves having more fun in these communities too.
+At [Token Page](https://www.tokenpage.xyz), we absolutely love when people say GM - it really makes our day.
 
-So we got together with [@confuseddegen](https://twitter.com/confuseddegen) and built GM. It's super simple, just visit the page, connect your wallet and GM.
+We realized over the last year that the communities that GM together stay together, and we found ourselves having more fun in these communities too. So we built GM!
+
+It's super simple, just visit the page, connect your wallet and GM - that's it! 😄
 
 *But, why?*
 
-Well, if you GM you're signalling to the world that you're still here and are in web3 for the vibes. Plus, there are awesome prizes to be won!
+Well, if you GM you're signalling to the world that you're still here and are in web3 for the vibes. Plus, you stand to win prizes!
 
-*Well, I'm worried about my security*
+*I'm worried about my security*
 
 Firstly, we get it. Web3 is a bit of a cess-pool and it's hard to know who to trust. The good part is, actually, you shouldn't trust anyone, not even us. Whenever you try to connect to a website you should always be super careful because there are hundreds of ways you could be scammed.
 

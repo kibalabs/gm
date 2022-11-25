@@ -136,6 +136,12 @@ export const buildAppTheme = (): ITheme => {
       footer: {
         'background-color': '$colors.background',
       },
+      topBar: {
+        'border-radius': '0.5em',
+        'border-color': '$colors.brandSecondary',
+        'border-width': '0.1em',
+        'background-color': transparentize(0.8, brandPrimary),
+      },
     },
     pills: {
       default: {

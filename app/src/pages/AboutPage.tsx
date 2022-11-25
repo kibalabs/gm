@@ -15,7 +15,7 @@ It's super simple, just visit the page, connect your wallet and GM - that's it! 
 
 Well, if you GM you're signalling to the world that you're still here and are in web3 for the vibes. Plus, you stand to win prizes!
 
-*I'm worried about my security*
+*I'm worried about my security 🔓*
 
 Firstly, we get it. Web3 is a bit of a cess-pool and it's hard to know who to trust. The good part is, actually, you shouldn't trust anyone, not even us. Whenever you try to connect to a website you should always be super careful because there are hundreds of ways you could be scammed.
 
@@ -24,27 +24,31 @@ For GM specifically, here's what you should be wary of - we will never ask you t
 If you don't even want to connect your wallet because it has all your best NFTs and you're super skeptical, we invite you to use **delegation**. It's a super easy way for you to allow one wallet to take non-transactional actions on behalf of another. So you could (e.g.) allow your hot wallet to say GM on your cold-wallets behalf. To use this just head over to [Delegate.Cash](https://delegate.cash) and use the app there. Once you've delegated a wallet, it will automatically work in GM 🚀
 
 `;
-// ### The prizes
+// ### The prizes 🎁
 
-// Every day, one GM-er from the collection with the most GMs will win an NFT from our GM NFT collection.
+// Every day 1 GM-er from the collection with the most GMs will win an NFT!
 
-// Holders of the GM tokens, will be exclusive access to [REDACTED]! (we're not quite ready to share yet, but keep your eyes peeled 👀)
+// Keep your daily streak of GMs going for long enough and you will be in for a chance to win [REDACTED] too. 😉
 
-// Our GM tokens will be produced once a day and will be tradeable like all other NFTs. The artwork will be revealed in October and we are very excited to show it to you. It's going to be a generative PFP collection with some very unique features!
+// More new prizes will be shared over the coming months! 👀
 
-// ### How to win
+// You can see all the past daily winners [here](https://bit.ly/3dEGSaI).
 
-// This is the easy part! When ever you GM (once a day max) you add a point to the daily score of each community you hold a token for.
+// NOTE: Prizes have been put on hold! If you are interested on working on this project to help us bring the prizes back then tweet us [@tokenpagexyz](https://twitter.com/tokenpagexyz) 💬
 
-// To get your community to the top you need to get everyone holding the token to come to the page and GM.
+// ### How do I win? 🤔
 
-// If your community is at the top of the list at the end of the day (in the UTC timezone), one of the GM-ers from that collection will win the GM NFT 🙌
+// This is the easy part! Whenever you GM, once per day, you add a point to the daily score of each community you hold an NFT for.
 
-// So the trick is: just get everyone from your community to come to the page and GM every day. If you are in many communities your best bet is to share it with all of them so that personally you are very likely to be in one of the communities that wins, thus increasing your odds of winning!
+// Get your community to the top by getting others holding that NFT to GM too!
 
-// If you have questions, feel free to reach out to us on twitter at [@tokenpagexyz](https://twitter.com/tokenpagexyz) 💬
+// The collection at the top of the list at the end of the day (in the UTC timezone) will have one random collector win the prize of the day. 🙌
 
-// **Good luck and GM frens!**
+// So the trick is: just get everyone from your community to come to the page and GM every day! If you are in many communities your best bet is to share it with all of them so that you raise your personal chances of being in the community that wins!
+
+// If you have questions, just send us a tweet to [@tokenpagexyz](https://twitter.com/tokenpagexyz) 💬
+
+// **Good luck and GM frens!** 👋
 
 export const AboutPage = (): React.ReactElement => {
   return (

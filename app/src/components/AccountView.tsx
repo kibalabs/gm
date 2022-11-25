@@ -49,8 +49,9 @@ export interface AccountImageViewProps {
   address: string;
   imageSize?: string;
 }
+
 export const AccountImageView = (props: AccountImageViewProps): React.ReactElement => {
-  const imageSize = props.imageSize ?? '20px';
+  const imageSize = props.imageSize ?? '1.4em';
   return (
     <Box
       id={props.id}

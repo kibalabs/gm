@@ -80,24 +80,24 @@ jobs:
       - name: Run linting
         run: |
           docker run --name lint-check $DOCKER_IMAGE make lint-check-ci
-          docker cp lint:/app/lint-results.json ./zm-app/lint-results.json
-      - name: Upload linting results
+          docker cp lint-check:/app/lint-check-results.json ./lint-check-results.json
+      - name: Upload lint-check results
         uses: kibalabs/github-action-create-annotations@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          json-file-path: ./zm-app/lint-results.json
+          json-file-path: ./lint-check-results.json
           check-name: lint-zm-app
           fail-on-error: false
           path-prefix: ./zm-app/
       - name: Run typing
         run: |
           docker run --name type-check $DOCKER_IMAGE make type-check-ci
-          docker cp typing:/app/typing-results.json ./zm-app/typing-results.json
-      - name: Upload typing results
+          docker cp type-check:/app/type-check-results.json ./type-check-results.json
+      - name: Upload type-check results
         uses: kibalabs/github-action-create-annotations@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          json-file-path: ./zm-app/typing-results.json
+          json-file-path: ./type-check-results.json
           check-name: type-zm-app
           fail-on-error: false
           path-prefix: ./zm-app/

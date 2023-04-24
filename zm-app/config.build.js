@@ -2,7 +2,7 @@
 const InjectSeoPlugin = require('@kibalabs/build/scripts/plugins/injectSeoPlugin');
 
 const title = 'ZM 🔮';
-const description = 'Who turns up for the zen community?';
+const description = 'Show up for the ZenAcademy';
 const url = 'https://zm.tokenpage.xyz'
 const imageUrl = `${url}/assets/banner.png`;
 

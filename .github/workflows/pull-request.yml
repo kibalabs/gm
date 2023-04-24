@@ -37,7 +37,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           json-file-path: ./gm-app/lint-results.json
-          check-name: lint-gm-app
+          check-name: gm-app-lint-check
           fail-on-error: false
           path-prefix: ./gm-app/
       - name: Run typing
@@ -49,7 +49,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           json-file-path: ./gm-app/typing-results.json
-          check-name: type-gm-app
+          check-name: gm-app-type-check
           fail-on-error: false
           path-prefix: ./gm-app/
   zm-app-build:
@@ -86,7 +86,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           json-file-path: ./lint-check-results.json
-          check-name: lint-zm-app
+          check-name: zm-app-lint-check
           fail-on-error: false
           path-prefix: ./zm-app/
       - name: Run typing
@@ -98,6 +98,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           json-file-path: ./type-check-results.json
-          check-name: type-zm-app
+          check-name: zm-app-type-check
           fail-on-error: false
           path-prefix: ./zm-app/

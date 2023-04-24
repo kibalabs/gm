@@ -31,7 +31,7 @@ jobs:
       - name: Run linting
         run: |
           docker run --name lint $DOCKER_IMAGE npm run lint -- --output-file lint-results.json --output-file-format annotations
-          docker cp lint:/gm-app/lint-results.json ./gm-app/lint-results.json
+          docker cp lint:/app/lint-results.json ./gm-app/lint-results.json
       - name: Upload linting results
         uses: kibalabs/github-action-create-annotations@main
         with:
@@ -80,7 +80,7 @@ jobs:
       - name: Run linting
         run: |
           docker run --name lint $DOCKER_IMAGE npm run lint -- --output-file lint-results.json --output-file-format annotations
-          docker cp lint:/zm-app/lint-results.json ./zm-app/lint-results.json
+          docker cp lint:/app/lint-results.json ./zm-app/lint-results.json
       - name: Upload linting results
         uses: kibalabs/github-action-create-annotations@main
         with:

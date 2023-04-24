@@ -2,16 +2,17 @@
 FROM node:18.2.0 as build
 
 WORKDIR /app
+COPY makefile $WORKDIR
 
 # Install requirements
 COPY package.json .
 COPY package-lock.json .
-RUN npm ci
+RUN make install
 
 # Build app
-COPY . .
-RUN npm run build-static
+COPY . $WORKDIR
+RUN make build-static
 
-# Stage 2: Serve build files with nginx
+# Stage 2: Serve with nginx
 FROM ghcr.io/kibalabs/app-serve:latest
 COPY --from=build /app/dist /usr/share/nginx/html

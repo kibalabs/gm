@@ -2,9 +2,8 @@ import React from 'react';
 
 import { getClassName, truncateMiddle } from '@kibalabs/core';
 import { Alignment, Box, Direction, Image, LinkBase, Stack, Text } from '@kibalabs/ui-react';
-import { ethers } from 'ethers';
 import { useWeb3, useWeb3Account } from '@kibalabs/web3-react';
-
+import { ethers } from 'ethers';
 
 
 const nameCache: Map<string, string | null> = new Map();

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useLocation, useNavigator } from '@kibalabs/core-react';
 import { Alignment, Box, Button, Direction, getVariant, HidingView, IconButton, KibaIcon, LayerContainer, PaddingSize, ResponsiveHidingView, ScreenSize, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { useWeb3Account } from '@kibalabs/web3-react';
 
 import { AccountImageView, AccountView } from './AccountView';
-import { useWeb3Account } from '@kibalabs/web3-react';
 
 
 const TAB_KEY_HOME = 'TAB_KEY_HOME';

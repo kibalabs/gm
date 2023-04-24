@@ -2,21 +2,21 @@ import React from 'react';
 
 import { LocalStorageClient, Requester } from '@kibalabs/core';
 import { IRoute, MockStorage, Router, useInitialization } from '@kibalabs/core-react';
-import { Web3AccountControlProvider } from '@kibalabs/web3-react';
-import { Head, IHeadRootProviderProps, KibaApp, ResponsiveHidingView, ScreenSize } from '@kibalabs/ui-react';
+import { ComponentDefinition, Head, IHeadRootProviderProps, KibaApp, ResponsiveHidingView, ScreenSize } from '@kibalabs/ui-react';
 import { buildToastThemes, Toast, ToastContainer, ToastThemedStyle } from '@kibalabs/ui-react-toast';
+import { Web3AccountControlProvider } from '@kibalabs/web3-react';
 
 import { NotdClient } from './client/client';
 import { FloatingView } from './components/FloatingView';
 import { Footer } from './components/Footer';
+import { Table, TableThemedStyle } from './components/Table';
+import { TableCell, TableCellThemedStyle } from './components/TableCell';
+import { TableRow, TableRowThemedStyle } from './components/TableRow';
 import { GlobalsProvider, IGlobals } from './globalsContext';
 import { AboutPage } from './pages/AboutPage';
 import { HomePage } from './pages/HomePage';
 import { buildAppTheme } from './theme';
 import './app.css';
-import { Table, TableThemedStyle } from './components/Table';
-import { TableRow, TableRowThemedStyle } from './components/TableRow';
-import { TableCell, TableCellThemedStyle } from './components/TableCell';
 
 
 declare global {

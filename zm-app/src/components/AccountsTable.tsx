@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Alignment, Direction, KibaIcon, Stack, Text, TextAlignment, getVariant, useColors } from '@kibalabs/ui-react';
+import { RecursivePartial } from '@kibalabs/core';
+import { Alignment, Direction, getVariant, KibaIcon, Stack, Text, TextAlignment, useColors } from '@kibalabs/ui-react';
 
-import { GmAccountRow } from '../client/resources';
 import { AccountView } from './AccountView';
 import { Table } from './Table';
 import { ITableCellTheme, TableCell } from './TableCell';
 import { TableRow } from './TableRow';
-import { RecursivePartial } from '@kibalabs/core';
+import { GmAccountRow } from '../client/resources';
 
 const areDatesSameDay = (date1: Date, date2: Date): boolean => {
   return date1.getFullYear() === date2.getFullYear()

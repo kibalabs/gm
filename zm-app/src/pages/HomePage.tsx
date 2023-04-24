@@ -2,15 +2,16 @@ import React from 'react';
 
 import { KibaException, truncateMiddle } from '@kibalabs/core';
 import { SubRouterOutlet, useLocation, useNavigator } from '@kibalabs/core-react';
-import { Alignment, Box, Button, ContainingView, Dialog, Direction, KibaIcon, LinkBase, LoadingSpinner, MarkdownText, PaddingSize, ResponsiveHidingView, ScreenSize, Spacing, Stack, TabBar, Text, TextAlignment } from '@kibalabs/ui-react';
+import { Alignment, Box, Button, ContainingView, Dialog, Direction, KibaIcon, LinkBase, LoadingSpinner, MarkdownText, PaddingSize, Spacing, Stack, Text, TextAlignment } from '@kibalabs/ui-react';
+import { useToastManager } from '@kibalabs/ui-react-toast';
+import { useOnLinkWeb3AccountsClicked, useWeb3, useWeb3Account, useWeb3LoginSignature, useWeb3OnLoginClicked } from '@kibalabs/web3-react';
 
-import { AccountCollectionGm, AccountGm, CollectionToken, GmAccountRow, LatestAccountGm } from '../client/resources';
+import { AccountGm, CollectionToken, GmAccountRow } from '../client/resources';
 import { AccountsTable } from '../components/AccountsTable';
 import { AccountView, getEnsName } from '../components/AccountView';
 import { NavBar } from '../components/NavBar';
 import { useGlobals } from '../globalsContext';
-import { useOnLinkWeb3AccountsClicked, useWeb3, useWeb3Account, useWeb3LoginSignature, useWeb3OnLoginClicked } from '@kibalabs/web3-react';
-import { useToastManager } from '@kibalabs/ui-react-toast';
+
 
 const ZENCHEST_REGISTRY_ADDRESS = '0x7B70695E761EB828aBEd8c4d506f9af3a76eF4b5';
 
@@ -114,7 +115,7 @@ export const HomePage = (): React.ReactElement => {
     if (accountGm) {
       return `ZM frens 🔮! Show you're still active and kicking in the @ZenAcademy at https://zm.tokenpage.xyz! I'm at ${accountGm.streakLength} in a row now, you'll see again tomorrow ⚡️`;
     }
-    return `ZM frens 🔮! Show you're still active and kicking in the @ZenAcademy at https://zm.tokenpage.xyz`;
+    return 'ZM frens 🔮! Show you\'re still active and kicking in the @ZenAcademy at https://zm.tokenpage.xyz';
   };
 
   React.useEffect((): (() => void) => {
@@ -187,8 +188,8 @@ export const HomePage = (): React.ReactElement => {
               ) : holdings.length === 0 ? (
                 <React.Fragment>
 
-                  <Text alignment={TextAlignment.Center} variant='large-bold'>You don't hold any ZenChests 😢</Text>
-                  <MarkdownText textAlignment={TextAlignment.Center} source={`You can [get your first ZenChest here](https://opensea.io/collection/zen-chests).\nYou can still ZM but you won't show on the leaderboard until you own a chest!`} />
+                  <Text alignment={TextAlignment.Center} variant='large-bold'>You don&apos;t hold any ZenChests 😢</Text>
+                  <MarkdownText textAlignment={TextAlignment.Center} source={'You can [get your first ZenChest here](https://opensea.io/collection/zen-chests).\nYou can still ZM but you won\'t show on the leaderboard until you own a chest!'} />
                   <Button variant='tertiary' text='Say ZM anyway' onClicked={onGmClicked} isLoading={isGming} />
                 </React.Fragment>
               ) : accountGm ? (

@@ -1,18 +1,19 @@
-import { getIsRunningOnBrowser } from '@kibalabs/core-react';
+import { RecursivePartial } from '@kibalabs/core';
 import { buildTheme, IBoxTheme, ILinkBaseTheme, ITextTheme, ITheme, mergeTheme, mergeThemePartial, ThemeMap } from '@kibalabs/ui-react';
 import { transparentize } from 'polished';
+
 import { ITableTheme } from './components/Table';
 import { ITableCellTheme } from './components/TableCell';
 import { ITableRowTheme } from './components/TableRow';
-import { RecursivePartial } from '@kibalabs/core';
+
 
 export const buildAppTheme = (): ITheme => {
   const baseTheme = buildTheme();
-  let brandPrimary = 'rgb(192, 142, 255)';
-  let brandSecondary = '#754EA6';
-  let background = '#000000';
-  let text = '#ffefef';
-  let buttonPrimaryTextShadow = transparentize(0.25, brandPrimary);
+  const brandPrimary = 'rgb(192, 142, 255)';
+  const brandSecondary = '#754EA6';
+  const background = '#000000';
+  const text = '#ffefef';
+  const buttonPrimaryTextShadow = transparentize(0.25, brandPrimary);
 
   // if (getIsRunningOnBrowser() && window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) {
   //   brandPrimary = '#927700';
@@ -377,7 +378,7 @@ export const buildAppTheme = (): ITheme => {
             padding: `${theme.dimensions.padding} ${theme.dimensions.paddingWide}`,
           }),
           text: mergeTheme<ITextTheme>(theme.texts.default, {
-            "text-align": 'center',
+            'text-align': 'center',
           }),
         },
         hover: {
@@ -432,7 +433,7 @@ export const buildAppTheme = (): ITheme => {
       normal: {
         default: {
           text: {
-            'color': theme.texts.note.color,
+            color: theme.texts.note.color,
             'font-weight': theme.texts.default['font-weight'],
           },
         },
